@@ -637,13 +637,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd9cbc044a9692544a526a50561eeee2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 8
-  groundCheck: {fileID: 339864774}
-  groundDistance: 0.4
+  moveSpeed: 4
+  groundDistance: 1
+  jumpForce: 2
+  playerScaleX: 1
+  IsWalking: 0
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  jumpForce: 2
+  PlayerAnim: {fileID: 441638264}
 --- !u!50 &1157246798
 Rigidbody2D:
   serializedVersion: 5
