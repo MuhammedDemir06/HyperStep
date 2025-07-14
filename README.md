@@ -10,7 +10,7 @@ This project is part of a public devlog series where I share every step of devel
 ## 📺 Devlog Series on YouTube
 
 Watch the full development process, from code to gameplay:  
-📌 [YouTube Channel – Devlog Playlist](https://youtube.com/@YourChannelHandle)
+📌 [YouTube Channel – Devlog Playlist](https://www.youtube.com/@issoeEnt/videos)
 
 ---
 
