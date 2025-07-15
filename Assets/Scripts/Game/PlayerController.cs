@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float playerScaleX = 1;
     public bool IsWalking;
     [Header("Referances")]
+    [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     public Animator PlayerAnim;
 
@@ -69,7 +70,7 @@ public class PlayerController : MonoBehaviour
     }
     public bool IsGrounded()
     {
-        return Physics2D.OverlapCircle(transform.position, groundDistance, groundLayer);
+        return Physics2D.OverlapCircle(groundCheck.position, groundDistance, groundLayer);
     }
     public void ChangeState(IState newState)
     {

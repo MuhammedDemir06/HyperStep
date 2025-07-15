@@ -5,6 +5,8 @@ public class InputManager : MonoBehaviour
     public static System.Action<float> PlayerMove;
     public static System.Action PlayerJump;
 
+    public static System.Action GamePause;
+
     private GameInput gameInput;
 
     //Inputs
@@ -23,14 +25,17 @@ public class InputManager : MonoBehaviour
     private void SetButtons()
     {
         gameInput.Player.Jump.performed += JumpPerformed;
+        gameInput.UI.GamePause.performed += GamePausePerformed;
     }
-
+    private void GamePausePerformed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        if (obj.ReadValueAsButton())
+            GamePause?.Invoke();
+    }
     private void JumpPerformed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         if(obj.ReadValueAsButton())
-        {
             PlayerJump?.Invoke();
-        }
     }
     private void SetMoveInput()
     {
