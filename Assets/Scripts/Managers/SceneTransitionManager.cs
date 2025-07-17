@@ -81,10 +81,12 @@ public class SceneTransitionManager : MonoBehaviour
     }
     private IEnumerator QuitAsync()
     {
+        DeactivateTransitionUI(true);
+
         yield return transitionImage.DOFade(1f, fadeDuration).WaitForCompletion();
         loadingGroup.SetActive(true);
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(fadeDuration);
 
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;

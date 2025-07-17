@@ -7,13 +7,20 @@ public class MainMenuUI : MonoBehaviour
     [Space(10)]
     [Header("Blur Image")]
     [SerializeField] private Image blurImage;
+    [Header("Quit Button")]
+    [SerializeField] private Button quitButton;
 
     private void Start()
     {
         blurImage.gameObject.SetActive(true);
-    }
 
-    //Buttons
+        quitButton.onClick.AddListener(GameQuit);
+    }
+    private void GameQuit()
+    {
+        SceneTransitionManager.Instance.QuitGame();
+    }
+    //Test Button**
     public void PlayButton()
     {
         SceneTransitionManager.Instance.LoadScene("Game");

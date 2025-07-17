@@ -144,8 +144,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 4
-  groundDistance: 0.4
-  jumpForce: 2
+  groundDistance: 0.3
+  jumpForce: 1.6
   playerScaleX: 1
   IsWalking: 0
   groundCheck: {fileID: 8712170049140015889}

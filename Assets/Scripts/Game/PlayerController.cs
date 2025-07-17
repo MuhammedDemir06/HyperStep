@@ -2,7 +2,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CapsuleCollider2D))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour,IPausable
 {
     [Header("Player Controller")]
     [Range(1, 15)]
@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour
 
     private IState currentState;
     private Rigidbody2D rb;
+
+    private bool canMove;
     private void OnEnable()
     {
         InputManager.PlayerMove += Move;
@@ -40,9 +42,14 @@ public class PlayerController : MonoBehaviour
 
         currentState = new IdleState();
         currentState.EnterState(this);
+
+        canMove = true;
     }
     private void Move(float input)
     {
+        if (!canMove)
+            return;
+
         rb.linearVelocity = new Vector2(moveSpeed * input, rb.linearVelocity.y);
         IsWalking = input != 0;
 
@@ -63,7 +70,7 @@ public class PlayerController : MonoBehaviour
     }
     private void Jump()
     {
-        if(IsGrounded())
+        if (IsGrounded() && canMove)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce * 10);
         }
@@ -81,5 +88,15 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         currentState.UpdateState(this);
+    }
+
+    public void OnPause()
+    {
+        canMove = false;
+    }
+
+    public void OnResume()
+    {
+        canMove = true;
     }
 }

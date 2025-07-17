@@ -10,28 +10,32 @@ public class PauseUI : MonoBehaviour
     [SerializeField] private PauseManager pauseManager;
 
     [SerializeField] private AnimatedPanel mobileDisplay;
-
-    [SerializeField] private Button pauseButton;
-    [SerializeField] private Button resumeButton;
     private void OnEnable()
     {
-        InputManager.GamePause += Pause;
+        InputManager.GamePause += TogglePause;
     }
     private void OnDisable()
     {
-        InputManager.GamePause -= Pause;
+        InputManager.GamePause -= TogglePause;
     }
-    private void Awake()
+    //Pc
+    public void TogglePause(bool isPaused)
     {
-        pauseButton.onClick.AddListener(Pause);
-        resumeButton.onClick.AddListener(Resume);
+        if (isPaused)
+            PauseGame();
+        else
+            ResumeGame();
+
+        Debug.Log($"Pause State: {isPaused}");
     }
-    private void Pause()
+
+    private void PauseGame()
     {
         pauseDisplay.Show();
         pauseManager.PauseGame();
     }
-    public void Resume()
+
+    private void ResumeGame()
     {
         pauseDisplay.Hide();
         mobileDisplay.Show();

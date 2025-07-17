@@ -5,7 +5,7 @@ public class InputManager : MonoBehaviour
     public static System.Action<float> PlayerMove;
     public static System.Action PlayerJump;
 
-    public static System.Action GamePause;
+    public static System.Action<bool> GamePause;
 
     private GameInput gameInput;
 
@@ -13,24 +13,31 @@ public class InputManager : MonoBehaviour
     [HideInInspector]
     public float InputX;
 
-    private void Awake()
+    private bool isClickedPause = false;
+    private void OnEnable()
     {
         gameInput = new GameInput();
-
         gameInput.Enable();
 
-        //Input
-        SetButtons();
-    }
-    private void SetButtons()
-    {
         gameInput.Player.Jump.performed += JumpPerformed;
         gameInput.UI.GamePause.performed += GamePausePerformed;
+    }
+
+    private void OnDisable()
+    {
+        gameInput.Player.Jump.performed -= JumpPerformed;
+        gameInput.UI.GamePause.performed -= GamePausePerformed;
+
+        gameInput.Disable();
     }
     private void GamePausePerformed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
         if (obj.ReadValueAsButton())
-            GamePause?.Invoke();
+        {
+            isClickedPause = !isClickedPause;
+
+            GamePause?.Invoke(isClickedPause);
+        }
     }
     private void JumpPerformed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
