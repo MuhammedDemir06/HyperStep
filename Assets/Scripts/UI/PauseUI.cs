@@ -10,6 +10,7 @@ public class PauseUI : MonoBehaviour
     [SerializeField] private PauseManager pauseManager;
 
     [SerializeField] private AnimatedPanel mobileDisplay;
+    [SerializeField] private AnimatedPanel healthDisplay;
     private void OnEnable()
     {
         InputManager.GamePause += TogglePause;
@@ -31,12 +32,16 @@ public class PauseUI : MonoBehaviour
 
     private void PauseGame()
     {
+        healthDisplay.Hide();
+
         pauseDisplay.Show();
         pauseManager.PauseGame();
     }
 
     private void ResumeGame()
     {
+        healthDisplay.Show();
+
         pauseDisplay.Hide();
         mobileDisplay.Show();
         pauseManager.ResumeGame();

@@ -43,9 +43,10 @@ GameObject:
   - component: {fileID: 4645024656656461013}
   - component: {fileID: 9138098400785236593}
   - component: {fileID: 2184670761289827232}
+  - component: {fileID: 1464503972404989130}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -144,7 +145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 4
-  groundDistance: 0.3
+  groundDistance: 0.4
   jumpForce: 1.6
   playerScaleX: 1
   IsWalking: 0
@@ -153,6 +154,19 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   PlayerAnim: {fileID: 2600574524145556454}
+--- !u!114 &1464503972404989130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6675719550740220864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ced7d34e85ec09941a3cc4a2c75e72d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerMaxHealth: 1
 --- !u!1 &8294450339999881147
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CapsuleCollider2D))]
+[RequireComponent(typeof(PlayerHealth))]
 public class PlayerController : MonoBehaviour,IPausable
 {
     [Header("Player Controller")]
@@ -56,6 +57,8 @@ public class PlayerController : MonoBehaviour,IPausable
         PlayerAnim.SetFloat("Move", input);
 
         SetDirection(input);
+
+       // PlayerAnim.SetBool("IsGrounded",IsGrounded());
     }
     private void SetDirection(float input)
     {
@@ -89,14 +92,14 @@ public class PlayerController : MonoBehaviour,IPausable
     {
         currentState.UpdateState(this);
     }
-
     public void OnPause()
     {
         canMove = false;
+        rb.simulated = false;
     }
-
     public void OnResume()
     {
         canMove = true;
+        rb.simulated = true;
     }
 }
