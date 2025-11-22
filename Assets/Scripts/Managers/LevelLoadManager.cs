@@ -10,26 +10,35 @@ public class LevelLoadManager : MonoBehaviour
     [Header("Referances")]
     [SerializeField] private LevelData levelData;
 
+    public string tileResourcesPath = "Tiles/";
     private void Start()
     {
         LoadLevel();
     }
     public void LoadLevel()
     {
-        if (levelData == null)
+        if (levelData == null || targetTilemap == null)
         {
-            Debug.LogError($"❌ Level not found");
+            Debug.LogError($"❌ Level Data or Tilemap not Found.");
             return;
         }
 
         targetTilemap.ClearAllTiles();
 
-        foreach (var tileData in levelData.tiles)
+        foreach (var tileData in levelData.Tiles)
         {
-            TileBase tile = tileData.TileAsset;
-            targetTilemap.SetTile(tileData.Position, tile);
+            TileBase tileAsset = Resources.Load<TileBase>(tileResourcesPath + "/" + tileData.TileName);
+
+            if (tileAsset != null)
+            {
+                targetTilemap.SetTile(tileData.Position, tileAsset);
+            }
+            else
+            {
+                Debug.LogWarning($"TileAsset Not Found: '{tileData.TileName}'. Resources Folder '{tileResourcesPath}{tileData.TileName}' path need Check. this position skipped: {tileData.Position}");
+            }
         }
 
-        Debug.Log($"✅ Level loaded");
+        Debug.Log($"✅ Level Loaded: {levelData.name}");
     }
 }

@@ -1,6 +1,7 @@
-#if UNITY_EDITOR
+﻿#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
+using IronTools.Attributes;
 
 [CustomPropertyDrawer(typeof(ShowIfAttribute))]
 public class ShowIfDrawer : PropertyDrawer
@@ -15,7 +16,6 @@ public class ShowIfDrawer : PropertyDrawer
             EditorGUI.PropertyField(position, property, label, true);
         }
     }
-
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
     {
         ShowIfAttribute showIf = (ShowIfAttribute)attribute;
@@ -26,7 +26,7 @@ public class ShowIfDrawer : PropertyDrawer
             return EditorGUI.GetPropertyHeight(property, label, true);
         }
 
-        return 0f;
+        return 0;
     }
 }
 #endif

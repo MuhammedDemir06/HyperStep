@@ -2,14 +2,17 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class TilemapEditor : EditorWindow
+public class LevelEditor : EditorWindow
 {
     private Tilemap targetTilemap;
+
+    private bool isEditingLoadedLevel = false;
+    private LevelData loadedLevelData = null;
 
     [MenuItem("Tools/Tilemap Level Saver")]
     public static void ShowWindow()
     {
-        GetWindow<TilemapEditor>("Tilemap Saver");
+        GetWindow<LevelEditor>("Tilemap Saver");
     }
     private void Title()
     {
@@ -33,7 +36,9 @@ public class TilemapEditor : EditorWindow
 
         Save();
 
-        ClearTilemap();
+        Load();
+
+        Clear();
 
         EditorGUILayout.LabelField("📂 Save Path:", "Assets/Resources/Levels", EditorStyles.miniBoldLabel);
 
@@ -56,37 +61,68 @@ public class TilemapEditor : EditorWindow
     {
         GUILayout.Space(10);
 
-        GUI.enabled = targetTilemap != null;
-        if (GUILayout.Button("💾 Save Tilemap as Level", GUILayout.Height(40)))
+        bool canSave = targetTilemap != null && (!isEditingLoadedLevel || loadedLevelData != null);
+        GUI.enabled = canSave;
+
+        string buttonText = isEditingLoadedLevel ? "💾 Save Changes to Loaded Level" : "💾 Save New Level";
+
+        if (GUILayout.Button(buttonText, GUILayout.Height(40)))
         {
-            if(targetTilemap.cellSize.x<1 || targetTilemap.cellSize.y<1)
+            if (targetTilemap.cellSize.x < 1 || targetTilemap.cellSize.y < 1)
             {
-                Debug.LogError("Invalid tile size! Make sure each cell's width and height are greater than 0.");
+                Debug.LogError("Invalid Tile size! Make sure the width and height of each cell are greater than 0.");
                 return;
             }
 
-            TilemapSaver.SaveTilemap(targetTilemap);
+            LevelSaver.SaveLevel(targetTilemap, loadedLevelData);
         }
-        GUI.enabled = true;
 
+        GUI.enabled = true;
         GUILayout.Space(10);
     }
-    private void ClearTilemap()
+    private void Load()
     {
-        if (GUILayout.Button("🧹 Clear Tilemap", GUILayout.Height(30)))
+        GUILayout.Space(10);
+
+        loadedLevelData = (LevelData)EditorGUILayout.ObjectField("📂 Level to Load", loadedLevelData, typeof(LevelData), false);
+
+        GUI.enabled = loadedLevelData != null && targetTilemap != null;
+
+        if (GUILayout.Button("📥 Load Level", GUILayout.Height(40)))
+        {
+            LevelLoader.LoadLevel(loadedLevelData, targetTilemap);
+            isEditingLoadedLevel = true;
+            Debug.Log($"Level '{loadedLevelData.name}' loaded into scene for editing.");
+        }
+
+        GUI.enabled = true;
+        GUILayout.Space(10);
+    }
+
+    private void Clear()
+    {
+        if (GUILayout.Button("🧹 Clear", GUILayout.Height(30)))
         {
             if (targetTilemap != null)
             {
                 bool confirm = EditorUtility.DisplayDialog(
                     "Confirm Clear",
-                    "Are you sure you want to clear the tilemap?",
+                    "Are you sure you want to clear?",
                     "Yes", "No");
 
                 if (confirm)
                 {
-                    Undo.RecordObject(targetTilemap, "Clear Tilemap");
+                    Undo.RecordObject(targetTilemap, "Clear");
+
                     targetTilemap.ClearAllTiles();
-                    Debug.Log("Tilemap cleared.");
+
+                    isEditingLoadedLevel = false;
+
+                    loadedLevelData = null;
+
+                    LevelLoader.RemoveLevel();
+
+                    Debug.Log("Cleared.");
                 }
             }
             else

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,7 +11,7 @@ namespace Cainos.LucidEditor.Experimental
     {
         private List<TreeMenuItem> baseElements = new List<TreeMenuItem>();
         private SimpleTreeView simpleTreeView;
-        private TreeViewState state;
+        private TreeViewState<int> state;   // ✔ Generic state
 
         private int currentId = 0;
         private List<TreeMenuItem> _selectedItems = new List<TreeMenuItem>();
@@ -24,10 +24,7 @@ namespace Cainos.LucidEditor.Experimental
 
         public string searchString
         {
-            get
-            {
-                return _searchString;
-            }
+            get => _searchString;
             set
             {
                 _searchString = value;
@@ -82,8 +79,7 @@ namespace Cainos.LucidEditor.Experimental
         private TreeMenuItem CreateItem(string path)
         {
             TreeMenuItem item = new TreeMenuItem(path);
-            item.id = currentId;
-            currentId++;
+            item.id = currentId++;
             return item;
         }
 
@@ -101,10 +97,12 @@ namespace Cainos.LucidEditor.Experimental
 
         public void Setup()
         {
-            state = new TreeViewState();
+            state = new TreeViewState<int>();   // ✔ Generic state kullan
             simpleTreeView = new SimpleTreeView(state);
+
             simpleTreeView.searchString = _searchString;
             simpleTreeView.Setup(baseElements.ToArray());
+
             simpleTreeView.onSelectionChanged += (idList) =>
             {
                 _selectedItems.Clear();
@@ -113,6 +111,7 @@ namespace Cainos.LucidEditor.Experimental
                     TreeMenuItem item = FindItem(id);
                     if (item != null) _selectedItems.Add(item);
                 }
+
                 onSelectionChanged?.Invoke(_selectedItems);
             };
 
@@ -135,10 +134,9 @@ namespace Cainos.LucidEditor.Experimental
 
         private TreeMenuItem FindItem(int id)
         {
-            TreeMenuItem item = null;
-            foreach(TreeMenuItem child in baseElements)
+            foreach (TreeMenuItem child in baseElements)
             {
-                item = FindItem(child, id);
+                var item = FindItem(child, id);
                 if (item != null) return item;
             }
             return null;
@@ -147,17 +145,15 @@ namespace Cainos.LucidEditor.Experimental
         private TreeMenuItem FindItem(TreeMenuItem root, int id)
         {
             if (root.id == id) return root;
-            TreeMenuItem item = null;
 
             foreach (TreeMenuItem child in root.childElements)
             {
-                item = FindItem(child, id);
-                if (item != null) return item;
+                var found = FindItem(child, id);
+                if (found != null) return found;
             }
 
             return null;
         }
-
     }
 
     public class TreeMenuItem
@@ -174,13 +170,7 @@ namespace Cainos.LucidEditor.Experimental
 
         internal int id;
 
-        public string name
-        {
-            get
-            {
-                return _name;
-            }
-        }
+        public string name => _name;
         private string _name;
 
         public TreeMenuItem parent { get; private set; }
@@ -189,10 +179,7 @@ namespace Cainos.LucidEditor.Experimental
 
         public void Add(TreeMenuItem child)
         {
-            if (child.parent != null)
-            {
-                child.parent.Remove(child);
-            }
+            if (child.parent != null) child.parent.Remove(child);
 
             _childElements.Add(child);
             child.parent = this;
