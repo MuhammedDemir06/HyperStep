@@ -26,8 +26,6 @@ public class PauseUI : MonoBehaviour
             PauseGame();
         else
             ResumeGame();
-
-        Debug.Log($"Pause State: {isPaused}");
     }
 
     private void PauseGame()
@@ -43,7 +41,9 @@ public class PauseUI : MonoBehaviour
         healthDisplay.Show();
 
         pauseDisplay.Hide();
-        mobileDisplay.Show();
+
+        if (mobileDisplay.enabled == true)
+            mobileDisplay.Show();
         pauseManager.ResumeGame();
     }
 }

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using IronTools.Attributes;
 
-[RequireComponent(typeof(Rigidbody2D))]
+//[RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CapsuleCollider2D))]
 public class EnemyBase : MonoBehaviour,IPausable
 {

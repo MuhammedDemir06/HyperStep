@@ -3,8 +3,8 @@ using UnityEngine;
 public class TakeDamage : MonoBehaviour
 {
     [Header("Take Damage")]
-    [Range(.1f,1)]
-    [SerializeField] private float damageAmount = .5f;
+    [Range(1f,100)]
+    [SerializeField] private float damageAmount = 50f;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

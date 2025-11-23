@@ -50,27 +50,39 @@ public static class LevelLoader
         switch (category)
         {
             case LevelObjectCategory.Normal: return $"Game/Normal/{prefabID}";
-            case LevelObjectCategory.Trap: return $"Game/Trap/{prefabID}";
-            case LevelObjectCategory.Enemy: return $"Game/Enemy/{prefabID}";
+            case LevelObjectCategory.Trap: return $"Game/Traps/{prefabID}";
+            case LevelObjectCategory.Enemy: return $"Game/Enemies/{prefabID}";
             default: return prefabID;
         }
     }
     public static void RemoveLevel(Transform parent = null)
     {
         GameObject[] allObjects;
+
         if (parent != null)
+        {
             allObjects = parent.GetComponentsInChildren<Transform>(true)
-                               .Select(t => t.gameObject).ToArray();
+                               .Select(t => t.gameObject)
+                               .ToArray();
+        }
         else
-            allObjects = Resources.FindObjectsOfTypeAll<GameObject>();
+        {
+            allObjects = Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None)
+                               .Where(go => go.scene.IsValid())
+                               .ToArray();
+        }
 
         foreach (var obj in allObjects)
         {
+            if (obj == null)
+                continue;
+
             if (obj.CompareTag("Normal") || obj.CompareTag("Trap") || obj.CompareTag("Enemy"))
             {
                 Object.DestroyImmediate(obj);
             }
         }
     }
+
 
 }

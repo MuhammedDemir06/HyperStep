@@ -19,14 +19,12 @@ public class PlayerHealth : MonoBehaviour,IHealth
         playerHealth -= damageAmount;
         playerHealth = Mathf.Clamp(playerHealth, 0, playerMaxHealth);
         HealthCahnged();
-      //  Debug.Log($"Damage Taken: -{damageAmount} | Current Health: {playerHealth}");
     }
     public void Heal(float healAmount)
     {
         playerHealth += healAmount;
         playerHealth = Mathf.Clamp(playerHealth, 0, playerMaxHealth);
         HealthCahnged();
-      //  Debug.Log($"Healed: +{healAmount} | Current Health: {playerHealth}");
     }
     private void HealthCahnged()
     {

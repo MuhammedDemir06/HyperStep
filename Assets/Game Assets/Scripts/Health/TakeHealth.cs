@@ -3,8 +3,8 @@ using UnityEngine;
 public class TakeHealth : MonoBehaviour
 {
     [Header("Take Damage")]
-    [Range(.1f, 1)]
-    [SerializeField] private float healAmount = .5f;
+    [Range(1f, 100)]
+    [SerializeField] private float healAmount = 50f;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

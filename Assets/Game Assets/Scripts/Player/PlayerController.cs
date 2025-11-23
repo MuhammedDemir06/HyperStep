@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour,IPausable
         InputManager.PlayerMove -= Move;
         InputManager.PlayerJump -= Jump;
     }
-    private void Start()
+    private void Awake()
     {
         Init();
     }
@@ -57,8 +57,6 @@ public class PlayerController : MonoBehaviour,IPausable
         PlayerAnim.SetFloat("Move", input);
 
         SetDirection(input);
-
-       // PlayerAnim.SetBool("IsGrounded",IsGrounded());
     }
     private void SetDirection(float input)
     {

@@ -10,7 +10,6 @@ public class HealthUI : MonoBehaviour
     [Header("Colors")]
     [SerializeField] private Color normalColor;
     [SerializeField] private Color lowHealthColor;
-    [SerializeField] private float lowHealthBound = .3f;
 
     [Header("Animation Settings")]
     [SerializeField] private float fillDuration = 0.3f;
@@ -24,11 +23,13 @@ public class HealthUI : MonoBehaviour
     {
         PlayerHealth.OnHealthChanged -= UpdateHealthBar;
     }
-    private void UpdateHealthBar(float healthRatio)
+    private void UpdateHealthBar(float healthAmount)
     {
+        float healthRatio = healthAmount / 100;
+
         healthBar.DOFillAmount(healthRatio, fillDuration).SetEase(fillEase);
 
-        Color targetColor = healthRatio < lowHealthBound ? lowHealthColor : normalColor;
+        Color targetColor = healthRatio < 0.3f ? lowHealthColor : normalColor;
         healthBar.DOColor(targetColor, colorTransitionDuration);
     }
 }
