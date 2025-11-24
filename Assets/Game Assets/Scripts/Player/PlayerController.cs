@@ -1,11 +1,12 @@
 using UnityEngine;
+using IronTools.Attributes;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CapsuleCollider2D))]
 [RequireComponent(typeof(PlayerHealth))]
 public class PlayerController : MonoBehaviour,IPausable
 {
-    [Header("Player Controller")]
+    [ShowDivider(EditorColor.Green,"Player Controller")]
     [Range(1, 15)]
     [SerializeField] private float moveSpeed = 5f;
     [Range(.1f,3f)]
@@ -13,8 +14,10 @@ public class PlayerController : MonoBehaviour,IPausable
     [Range(1f, 5f)]
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private float playerScaleX = 1;
-    public bool IsWalking;
-    [Header("Referances")]
+
+    [HideInInspector] public bool IsWalking;
+
+    [ShowDivider(EditorColor.Green, "Referances")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     public Animator PlayerAnim;

@@ -18,6 +18,10 @@ public class PlayerHealth : MonoBehaviour,IHealth
     {
         playerHealth -= damageAmount;
         playerHealth = Mathf.Clamp(playerHealth, 0, playerMaxHealth);
+
+        if (playerHealth == 0)
+            Debug.LogWarning("Player Dead!");
+
         HealthCahnged();
     }
     public void Heal(float healAmount)
