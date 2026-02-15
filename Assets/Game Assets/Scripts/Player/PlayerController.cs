@@ -4,6 +4,7 @@ using IronTools.Attributes;
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CapsuleCollider2D))]
 [RequireComponent(typeof(PlayerHealth))]
+[RequireComponent(typeof(PlayerManager))]
 public class PlayerController : MonoBehaviour,IPausable
 {
     [ShowDivider(EditorColor.Green,"Player Controller")]

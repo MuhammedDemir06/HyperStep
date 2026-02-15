@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.Tilemaps;
-using System.IO;
-
 public class LevelLoadManager : MonoBehaviour
 {
     [Header("Target Tilemap")]

@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff34170ba959cc947a0f4e9c6782f1ab, type: 3}
   m_Name: ChaptersData
   m_EditorClassIdentifier: Assembly-CSharp::ChapterData
-  Chapters: []
+  Chapters:
+  - ChapterName: Classic
+    Levels:
+    - {fileID: 11400000, guid: e440fefdf5a4fa24baf0dea68a90fa5c, type: 2}

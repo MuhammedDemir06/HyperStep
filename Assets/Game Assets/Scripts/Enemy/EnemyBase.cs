@@ -28,11 +28,14 @@ public class EnemyBase : MonoBehaviour,IPausable
     protected bool isPlayerDetected;
     protected Animator anim;
     protected bool canMove;
-    protected virtual void Start()
+    private void Awake()
     {
         anim = GetComponent<Animator>();
-
+    }
+    protected virtual void Start()
+    {
         canMove = true;
+        player = PlayerManager.Player;
     }
     //Only Patrol
     protected virtual void Patrol()
@@ -51,8 +54,8 @@ public class EnemyBase : MonoBehaviour,IPausable
             return;
         }
 
-        RaycastHit2D wallCheck = Physics2D.Raycast(frontOrigin, direction, 0.2f);
-        if (wallCheck.collider != null)
+        RaycastHit2D wallCheck = Physics2D.Raycast(frontOrigin, direction, 0.1f);
+        if (wallCheck.collider != null && !wallCheck.collider.CompareTag("Player"))
         {
             Flip();
         }
@@ -67,9 +70,6 @@ public class EnemyBase : MonoBehaviour,IPausable
     //Patrol and Attack Player
     protected virtual void SearchForPlayer()
     {
-        if (player == null)
-            player = GameObject.FindGameObjectWithTag("Player").transform;
-
         if (player != null && IsPlayerInSight())
         {
             float distance = Vector2.Distance(transform.position, player.position);

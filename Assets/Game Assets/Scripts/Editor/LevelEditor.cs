@@ -217,18 +217,42 @@ public class LevelEditor : EditorWindow
         bool canSave = targetTilemap != null && (!isEditingLoadedLevel || loadedLevelData != null);
         GUI.enabled = canSave;
 
-        string buttonText = isEditingLoadedLevel ? "💾 Save Changes to Loaded Level" : "💾 Save New Level";
-
-        if (GUILayout.Button(buttonText, GUILayout.Height(40)))
+        if (GUILayout.Button("💾 Save Changes", GUILayout.Height(40)) && !isEditingLoadedLevel)
         {
-            if (targetTilemap.cellSize.x < 1 || targetTilemap.cellSize.y < 1)
+            if (targetTilemap == null)
+            {
+                Debug.LogError("No Tilemap assigned. Please assign a Tilemap before saving.");
+                return;
+            }
+
+            if (targetTilemap.cellSize.x <= 0 || targetTilemap.cellSize.y <= 0)
             {
                 Debug.LogError("Invalid Tile size! Make sure the width and height of each cell are greater than 0.");
                 return;
             }
 
-            LevelSaver.SaveLevel(targetTilemap, loadedLevelData,chapterName);
+            int tileCount = 0;
+
+            foreach (var pos in targetTilemap.cellBounds.allPositionsWithin)
+            {
+                if (targetTilemap.HasTile(pos))
+                {
+                    tileCount++;
+
+                    if (tileCount >= 2)
+                        break;
+                }
+            }
+
+            if (tileCount < 2)
+            {
+                Debug.LogWarning("Level is empty or incomplete. Please draw at least 2 tiles before saving.");
+                return;
+            }
+
+            LevelSaver.SaveLevel(targetTilemap, loadedLevelData, chapterName);
         }
+
         if (GUILayout.Button("Remove Chapter", GUILayout.Height(40)))
         {
             if (string.IsNullOrEmpty(chapterName))
@@ -280,7 +304,10 @@ public class LevelEditor : EditorWindow
         bool canLoad = loadedLevelData != null && targetTilemap != null;
 
         GUI.enabled = canLoad;
-        if (GUILayout.Button("📥 Load Level", GUILayout.Height(40)))
+
+        string buttonText = isEditingLoadedLevel ? "💾 Save Changes to Loaded Level" : "Load";
+
+        if (GUILayout.Button(buttonText, GUILayout.Height(40)))
         {
             LevelLoader.LoadLevel(loadedLevelData, targetTilemap);
             isEditingLoadedLevel = true;
