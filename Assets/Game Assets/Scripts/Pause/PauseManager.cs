@@ -4,8 +4,12 @@ using UnityEngine;
 public class PauseManager : MonoBehaviour
 {
     private List<IPausable> pausables = new List<IPausable>();
+    public bool GamePaused = false;
     public void PauseGame()
     {
+        if (GamePaused)
+            return;
+
         pausables.Clear();
 
         var allMonoBehaviours = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None);
@@ -18,10 +22,16 @@ public class PauseManager : MonoBehaviour
                 pausable.OnPause();
             }
         }
+        GamePaused = true;
     }
     public void ResumeGame()
     {
+        if (!GamePaused)
+            return;
+
         foreach (var p in pausables)
             p.OnResume();
+
+        GamePaused = false;
     }
 }

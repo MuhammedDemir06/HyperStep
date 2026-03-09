@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
-
 public class PauseUI : MonoBehaviour
 {
     [Header("Pause UI")]
@@ -9,8 +7,9 @@ public class PauseUI : MonoBehaviour
     [SerializeField] private AnimatedPanel pauseDisplay;
     [SerializeField] private PauseManager pauseManager;
 
-    [SerializeField] private AnimatedPanel mobileDisplay;
     [SerializeField] private AnimatedPanel healthDisplay;
+
+    private bool disabled = false;
     private void OnEnable()
     {
         InputManager.GamePause += TogglePause;
@@ -22,6 +21,9 @@ public class PauseUI : MonoBehaviour
     //Pc
     public void TogglePause(bool isPaused)
     {
+        if (disabled)
+            return;
+
         if (isPaused)
             PauseGame();
         else
@@ -42,8 +44,10 @@ public class PauseUI : MonoBehaviour
 
         pauseDisplay.Hide();
 
-        if (mobileDisplay.enabled == true)
-            mobileDisplay.Show();
         pauseManager.ResumeGame();
+    }
+    public void DisablePauseUI()
+    {
+        disabled = true;
     }
 }

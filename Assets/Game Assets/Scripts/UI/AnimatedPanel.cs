@@ -4,46 +4,52 @@ using UnityEngine;
 public class AnimatedPanel : MonoBehaviour
 {
     [Header("Target Panel")]
-    [SerializeField] private RectTransform targetPanel;
+    [SerializeField] private CanvasGroup targetGroup;
 
     [Header("Animation Settings")]
     [SerializeField] private float animationDuration = 0.4f;
-    [SerializeField] private Ease openEase = Ease.OutBack;
-    [SerializeField] private Ease closeEase = Ease.InBack;
+    [SerializeField] private Ease openEase = Ease.OutCubic;
+    [SerializeField] private Ease closeEase = Ease.InCubic;
 
-    private Vector3 originalScale;
-
-    [SerializeField] private bool HideOnStart = true;
-
+    [SerializeField] private bool hideOnStart = true;
     private void Start()
     {
-        if (targetPanel == null) return;
+        if (targetGroup == null) return;
 
-        originalScale = targetPanel.localScale;
+        targetGroup.DOKill();
 
-        if (HideOnStart)
+        if (hideOnStart)
         {
-            targetPanel.localScale = Vector3.zero;
-            targetPanel.gameObject.SetActive(false);
+            targetGroup.alpha = 0f;
+            targetGroup.interactable = false;
+            targetGroup.blocksRaycasts = false;
         }
         else
         {
-            targetPanel.gameObject.SetActive(true);
+            targetGroup.alpha = 1f;
+            targetGroup.interactable = true;
+            targetGroup.blocksRaycasts = true;
         }
     }
     public void Show()
     {
-        if (targetPanel == null) return;
+        if (targetGroup == null) return;
 
-        targetPanel.gameObject.SetActive(true);
-        targetPanel.localScale = Vector3.zero;
-        targetPanel.DOScale(originalScale, animationDuration).SetEase(openEase);
+        targetGroup.DOKill();
+        targetGroup.DOFade(1f, animationDuration).SetEase(openEase);
+        targetGroup.interactable = true;
+        targetGroup.blocksRaycasts = true;
     }
     public void Hide()
     {
-        if (targetPanel == null) return;
+        if (targetGroup == null) return;
 
-        targetPanel.DOScale(Vector3.zero, animationDuration).SetEase(closeEase)
-            .OnComplete(() => targetPanel.gameObject.SetActive(false));
+        targetGroup.DOKill();
+        targetGroup.DOFade(0f, animationDuration).SetEase(closeEase)
+            .OnComplete(() =>
+            {
+                targetGroup.interactable = false;
+                targetGroup.blocksRaycasts = false;
+            });
     }
 }
