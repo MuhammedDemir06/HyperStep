@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 using IronTools.Attributes;
 
-//[RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CapsuleCollider2D))]
-public class EnemyBase : MonoBehaviour,IPausable
+public class EnemyBase : MonoBehaviour,ILevelInitializable
 {
     [Header("Movement")]
     [SerializeField] protected float speed = 2f;
@@ -28,6 +27,9 @@ public class EnemyBase : MonoBehaviour,IPausable
     protected bool isPlayerDetected;
     protected Animator anim;
     protected bool canMove;
+
+    private IGameStateService _gameStateService;
+
     private void Awake()
     {
         anim = GetComponent<Animator>();
@@ -35,7 +37,18 @@ public class EnemyBase : MonoBehaviour,IPausable
     protected virtual void Start()
     {
         canMove = true;
-        player = PlayerManager.Player;
+     //   player = PlayerManager.Player; 
+    }
+    public void Initialize(IGameStateService gameStateService)
+    {
+        _gameStateService =  gameStateService;
+        _gameStateService.OnStateChanged += HandleStateChanged;
+
+        canMove = (_gameStateService.CurrentState == GameState.Paused);
+    }
+    private void HandleStateChanged(GameState newState)
+    {
+        canMove = (newState == GameState.Paused);
     }
     //Only Patrol
     protected virtual void Patrol()
@@ -120,13 +133,5 @@ public class EnemyBase : MonoBehaviour,IPausable
     protected virtual void Update()
     {
         //Update
-    }
-    public void OnPause()
-    {
-        canMove = false;
-    }
-    public void OnResume()
-    {
-        canMove = true;
     }
 }

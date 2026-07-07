@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 using UnityEngine.Tilemaps;
 public class LevelLoadManager : MonoBehaviour
 {
@@ -13,11 +14,13 @@ public class LevelLoadManager : MonoBehaviour
     [Header("Tile Resources Path")]
     public string tileResourcesPath = "Tiles/";
 
-    private void Start()
+    private IGameStateService _gameStateService;
+    public void Construct(IGameStateService gameStateService)
     {
+        _gameStateService = gameStateService;
+
         LoadLevel(chapterName, levelIndex);
     }
-
     public void LoadLevel(string chapter, int index)
     {
         if (targetTilemap == null)
@@ -70,7 +73,14 @@ public class LevelLoadManager : MonoBehaviour
                 string prefabPath = GetPrefabPathByCategory(categoryData.Category, objData.PrefabID);
                 GameObject prefab = Resources.Load<GameObject>(prefabPath);
                 if (prefab != null)
-                    Instantiate(prefab, objData.Position, objData.Rotation, spawnParent);
+                {
+                    var spawned = Instantiate(prefab, objData.Position, objData.Rotation, spawnParent);
+
+                    if (spawned.TryGetComponent(out ILevelInitializable init))
+                    {
+                        init.Initialize(_gameStateService);
+                    }
+                }
                 else
                     Debug.LogWarning($"⚠️ Prefab '{objData.PrefabID}' not found at '{prefabPath}'");
             }

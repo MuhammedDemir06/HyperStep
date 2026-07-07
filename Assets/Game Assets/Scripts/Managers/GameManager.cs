@@ -1,8 +1,12 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+
+    public GameState DefaultState;
+
+    public IGameStateService _gameStateService;
 
     [SerializeField] private GameObject transitionUIPrefab;
 
@@ -17,11 +21,18 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
 
             SpawnTransitionUI();
+
+            CreateNewGameStateService().ChangeState(DefaultState);
         }
         else
         {
             Destroy(gameObject);
         }
+    }
+    private IGameStateService CreateNewGameStateService()
+    {
+        _gameStateService = new GameStateService();
+        return _gameStateService;
     }
     private void SpawnTransitionUI()
     {

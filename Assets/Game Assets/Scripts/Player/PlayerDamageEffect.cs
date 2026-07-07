@@ -9,14 +9,6 @@ public class PlayerDamageEffect : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Color damageColor = Color.red;
     public float flashDuration = 0.2f;
-    private void OnEnable()
-    {
-        PlayerHealth.OnHealthChanged += TakeDamage;
-    }
-    private void OnDisable()
-    {
-        PlayerHealth.OnHealthChanged -= TakeDamage;
-    }
     private void Awake()
     {
         originalColor = spriteRenderer.color;

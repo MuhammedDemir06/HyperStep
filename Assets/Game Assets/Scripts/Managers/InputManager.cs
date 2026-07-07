@@ -1,56 +1,28 @@
 using UnityEngine;
-
-public class InputManager : MonoBehaviour
+public class InputManager : IInputProvider
 {
-    public static System.Action<float> PlayerMove;
-    public static System.Action PlayerJump;
-
-    public static System.Action<bool> GamePause;
-
     private GameInput gameInput;
 
-    //Inputs
-    [HideInInspector]
-    public float InputX;
+    public float InputX { get; set; }
 
-    private bool isClickedPause = false;
-    private void OnEnable()
+    //Inputs
+    public event System.Action OnJump;
+    public event System.Action OnPaused;
+
+    public void NewInputService()
     {
         gameInput = new GameInput();
         gameInput.Enable();
 
-        gameInput.Player.Jump.performed += JumpPerformed;
-        gameInput.UI.GamePause.performed += GamePausePerformed;
+        gameInput.Player.Jump.performed += ctx => OnJump?.Invoke();
+        gameInput.UI.GamePause.performed += ctx => OnPaused?.Invoke();
     }
-
-    private void OnDisable()
+    public void NewInputServiceDisable()
     {
-        gameInput.Player.Jump.performed -= JumpPerformed;
-        gameInput.UI.GamePause.performed -= GamePausePerformed;
-
         gameInput.Disable();
     }
-    private void GamePausePerformed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        if (obj.ReadValueAsButton())
-        {
-            isClickedPause = !isClickedPause;
-
-            GamePause?.Invoke(isClickedPause);
-        }
-    }
-    private void JumpPerformed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        if(obj.ReadValueAsButton())
-            PlayerJump?.Invoke();
-    }
-    private void SetMoveInput()
+    public void UpdateInput()
     {
         InputX = gameInput.Player.Move.ReadValue<Vector2>().x;
-        PlayerMove?.Invoke(InputX);
-    }
-    private void Update()
-    {
-        SetMoveInput();
     }
 }

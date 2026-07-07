@@ -1,12 +1,15 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class JumpingState : IState
 {
     public void EnterState(PlayerController player)
     {
-      //  Debug.Log("Entered Jumping State");
-
-        player.PlayerAnim.SetTrigger("Jump");
+        if (player.IsGrounded())
+        {
+            player.Rb.linearVelocity = new Vector2(player.Rb.linearVelocity.x, player.JumpForce * 10);
+            player.PlayerAnimation.Jump();
+        }
     }
     public void ExitState(PlayerController player)
     {
@@ -18,13 +21,13 @@ public class JumpingState : IState
         {
             if (player.IsWalking)
             {
-                player.ChangeState(new WalkingState());
+                player.ChangePlayerState(player.NewWalkingState);
             }
             else
             {
-                player.ChangeState(new IdleState());
+                player.ChangePlayerState(player.NewIdleState);
             }
         }
-        player.PlayerAnim.SetBool("IsGrounded", player.IsGrounded());
+        player.PlayerAnimation.Grounded(player.IsGrounded());
     }
 }

@@ -14,11 +14,11 @@ public class WalkingState : IState
     {
         if (!player.IsGrounded())
         {
-            player.ChangeState(new JumpingState());
+            player.ChangePlayerState(player.NewJumpingState);
         }
         else if (!player.IsWalking)
         {
-            player.ChangeState(new IdleState());
+            player.ChangePlayerState(player.NewIdleState);
         }
     }
 }

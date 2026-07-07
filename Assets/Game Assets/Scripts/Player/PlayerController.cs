@@ -1,19 +1,18 @@
 using UnityEngine;
 using IronTools.Attributes;
-
-[RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(CapsuleCollider2D))]
-[RequireComponent(typeof(PlayerHealth))]
-[RequireComponent(typeof(PlayerManager))]
-public class PlayerController : MonoBehaviour,IPausable
+using System;
+public class PlayerController : MonoBehaviour
 {
-    [ShowDivider(EditorColor.Green,"Player Controller")]
+    [ShowDivider(EditorColor.Green, "Player Controller")]
+    public bool IsDead;
     [Range(1, 15)]
     [SerializeField] private float moveSpeed = 5f;
     [Range(.1f,3f)]
     [SerializeField] private float groundDistance = 0.4f;
     [Range(1f, 5f)]
     [SerializeField] private float jumpForce = 5f;
+    public float JumpForce { get { return jumpForce; }}
+
     [SerializeField] private float playerScaleX = 1;
 
     [HideInInspector] public bool IsWalking;
@@ -21,22 +20,25 @@ public class PlayerController : MonoBehaviour,IPausable
     [ShowDivider(EditorColor.Green, "Referances")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
-    public Animator PlayerAnim;
+  //  public Animator PlayerAnim;
 
     private IState currentState;
     private Rigidbody2D rb;
+    public Rigidbody2D Rb { get { return rb; } }
 
     private bool canMove;
-    private void OnEnable()
-    {
-        InputManager.PlayerMove += Move;
-        InputManager.PlayerJump += Jump;
-    }
-    private void OnDisable()
-    {
-        InputManager.PlayerMove -= Move;
-        InputManager.PlayerJump -= Jump;
-    }
+    public bool CanMove { get { return canMove; } }
+    private IInputProvider _inputProvider;
+    private IGameStateService _gameStateService;
+    private PlayerAnimationController _playerAnimationController;
+    public PlayerAnimationController PlayerAnimation {  get { return _playerAnimationController; } }
+    public GameState CurrentState => throw new NotImplementedException();
+
+    //==========Cache============
+    public IState NewIdleState;
+    public IState NewWalkingState;
+    public IState NewJumpingState;
+    public IState NewDeathState;
     private void Awake()
     {
         Init();
@@ -45,22 +47,44 @@ public class PlayerController : MonoBehaviour,IPausable
     {
         rb = GetComponent<Rigidbody2D>();
 
-        currentState = new IdleState();
+        NewIdleState = new IdleState();
+        NewWalkingState = new WalkingState();
+        NewJumpingState = new JumpingState();
+        NewDeathState = new DeathState();
+
+        currentState = NewIdleState;
         currentState.EnterState(this);
 
         canMove = true;
     }
-    private void Move(float input)
+    public void Construct(IInputProvider provider,IGameStateService gameState,PlayerAnimationController playerAnimationController)
     {
-        if (!canMove)
+        _gameStateService = gameState;
+        _inputProvider = provider;
+        _playerAnimationController = playerAnimationController;
+
+        _inputProvider.OnJump += Jump;
+        _gameStateService.OnStateChanged += HandleChangeState;
+    }
+    private void Move()
+    {
+        var input = _inputProvider.InputX;
+
+        if (!canMove || IsDead)
             return;
 
         rb.linearVelocity = new Vector2(moveSpeed * input, rb.linearVelocity.y);
         IsWalking = input != 0;
 
-        PlayerAnim.SetFloat("Move", input);
+        _playerAnimationController.MoveAnim(input);
 
         SetDirection(input);
+    }
+    private void Update()
+    {
+        Move();
+
+        currentState.UpdateState(this);
     }
     private void SetDirection(float input)
     {
@@ -73,35 +97,25 @@ public class PlayerController : MonoBehaviour,IPausable
 
         transform.localScale = newScale;
     }
-    private void Jump()
+    public void Jump()
     {
-        if (IsGrounded() && canMove)
-        {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce * 10);
-        }
+        if (!canMove || IsDead) return;
+
+        ChangePlayerState(NewJumpingState);
     }
     public bool IsGrounded()
     {
         return Physics2D.OverlapCircle(groundCheck.position, groundDistance, groundLayer);
     }
-    public void ChangeState(IState newState)
+    public void ChangePlayerState(IState newState)
     {
         currentState.ExitState(this);
         currentState = newState;
         currentState.EnterState(this);
     }
-    private void Update()
+    public void HandleChangeState(GameState newState)
     {
-        currentState.UpdateState(this);
-    }
-    public void OnPause()
-    {
-        canMove = false;
-        rb.simulated = false;
-    }
-    public void OnResume()
-    {
-        canMove = true;
-        rb.simulated = true;
+        canMove = (newState != GameState.Paused);
+        rb.simulated = canMove;
     }
 }

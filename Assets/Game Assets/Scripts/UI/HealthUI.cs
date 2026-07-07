@@ -15,13 +15,18 @@ public class HealthUI : MonoBehaviour
     [SerializeField] private float fillDuration = 0.3f;
     [SerializeField] private Ease fillEase = Ease.OutQuad;
     [SerializeField] private float colorTransitionDuration = .3f;
-    private void OnEnable()
+
+    private AnimatedPanel healthDisplay;
+
+    private IHealth _healthService;
+    private void Awake()
     {
-        PlayerHealth.OnHealthChanged += UpdateHealthBar;
+        healthDisplay = GetComponent<AnimatedPanel>();
     }
-    private void OnDisable()
+    public void Construct(IHealth health)
     {
-        PlayerHealth.OnHealthChanged -= UpdateHealthBar;
+        _healthService = health;
+        _healthService.OnHealthChanged += UpdateHealthBar;
     }
     private void UpdateHealthBar(float healthAmount)
     {
@@ -32,4 +37,7 @@ public class HealthUI : MonoBehaviour
         Color targetColor = healthRatio < 0.3f ? lowHealthColor : normalColor;
         healthBar.DOColor(targetColor, colorTransitionDuration);
     }
+
+    public void Show() => healthDisplay.Show();
+    public void Hide() => healthDisplay.Hide();
 }

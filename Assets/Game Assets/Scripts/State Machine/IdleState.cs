@@ -4,7 +4,7 @@ public class IdleState : IState
 {
     public void EnterState(PlayerController player)
     {
-       // Debug.Log("Entered Idle State");
+        // Debug.Log("Entered Idle State");
     }
     public void ExitState(PlayerController player)
     {
@@ -14,11 +14,11 @@ public class IdleState : IState
     {
         if(player.IsGrounded() && player.IsWalking)
         {
-            player.ChangeState(new WalkingState());
+            player.ChangePlayerState(new WalkingState());
         }
         else if(!player.IsGrounded())
         {
-            player.ChangeState(new JumpingState());
+            player.ChangePlayerState(new JumpingState());
         }
     }
 }

@@ -42,10 +42,13 @@ GameObject:
   - component: {fileID: 7286943954664496434}
   - component: {fileID: 4645024656656461013}
   - component: {fileID: 9138098400785236593}
+  - component: {fileID: 4515267445376879185}
   - component: {fileID: 2184670761289827232}
   - component: {fileID: 1464503972404989130}
   - component: {fileID: 5294518999313470948}
   - component: {fileID: 5550526708226675352}
+  - component: {fileID: 5199840572390356810}
+  - component: {fileID: 3184407187687052384}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -134,6 +137,18 @@ CapsuleCollider2D:
   m_Offset: {x: -0.03507684, y: -0.17051029}
   m_Size: {x: 0.48920706, y: 1.3410206}
   m_Direction: 0
+--- !u!114 &4515267445376879185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6675719550740220864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be2815369bb34c04b8c9eff8e43cc152, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInstaller
 --- !u!114 &2184670761289827232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,6 +161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd9cbc044a9692544a526a50561eeee2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsDead: 0
   moveSpeed: 4
   groundDistance: 0.4
   jumpForce: 1.6
@@ -155,7 +171,6 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  PlayerAnim: {fileID: 2600574524145556454}
 --- !u!114 &1464503972404989130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,6 +213,31 @@ MonoBehaviour:
   spriteRenderer: {fileID: 3926633791746609050}
   damageColor: {r: 1, g: 1, b: 1, a: 0.39215687}
   flashDuration: 0.2
+--- !u!114 &5199840572390356810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6675719550740220864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 852f8fa9bd0d932439fa63c03415f013, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerContactReceiver
+--- !u!114 &3184407187687052384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6675719550740220864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a342eb56560eda4eb323445a727012a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimationController
+  playerAnim: {fileID: 2600574524145556454}
 --- !u!1 &8294450339999881147
 GameObject:
   m_ObjectHideFlags: 0
@@ -233,6 +273,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3926633791746609050
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -278,6 +319,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
+  m_MaskInteraction: 0
   m_Sprite: {fileID: 359170815697947668, guid: 3accdbde4e56f5c4e9cfa311b8cef55f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -287,7 +329,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!95 &2600574524145556454
 Animator:

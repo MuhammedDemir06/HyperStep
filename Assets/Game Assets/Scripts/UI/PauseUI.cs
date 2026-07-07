@@ -1,53 +1,11 @@
 using UnityEngine;
 public class PauseUI : MonoBehaviour
 {
-    [Header("Pause UI")]
-    [Space(10)]
-    [Header("References")]
-    [SerializeField] private AnimatedPanel pauseDisplay;
-    [SerializeField] private PauseManager pauseManager;
-
-    [SerializeField] private AnimatedPanel healthDisplay;
-
-    private bool disabled = false;
-    private void OnEnable()
+    private AnimatedPanel pauseDisplay;
+    private void Awake()
     {
-        InputManager.GamePause += TogglePause;
+        pauseDisplay = GetComponent<AnimatedPanel>();
     }
-    private void OnDisable()
-    {
-        InputManager.GamePause -= TogglePause;
-    }
-    //Pc
-    public void TogglePause(bool isPaused)
-    {
-        if (disabled)
-            return;
-
-        if (isPaused)
-            PauseGame();
-        else
-            ResumeGame();
-    }
-
-    private void PauseGame()
-    {
-        healthDisplay.Hide();
-
-        pauseDisplay.Show();
-        pauseManager.PauseGame();
-    }
-
-    private void ResumeGame()
-    {
-        healthDisplay.Show();
-
-        pauseDisplay.Hide();
-
-        pauseManager.ResumeGame();
-    }
-    public void DisablePauseUI()
-    {
-        disabled = true;
-    }
+    public void Show() => pauseDisplay.Show();
+    public void Hide() => pauseDisplay.Hide();
 }

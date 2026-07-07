@@ -1,4 +1,5 @@
 {
+    "version": 1,
     "name": "GameInput",
     "maps": [
         {
@@ -26,7 +27,7 @@
             ],
             "bindings": [
                 {
-                    "name": "Directions",
+                    "name": "Keyboard",
                     "id": "8118c4eb-c6c4-4b7f-8625-615cf943a180",
                     "path": "2DVector",
                     "interactions": "",
@@ -42,7 +43,7 @@
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Game",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -53,10 +54,21 @@
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Game",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "86fe793f-fb82-4708-8354-544c7a4d1dce",
+                    "path": "<Joystick>/stick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Game",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
@@ -64,7 +76,18 @@
                     "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Game",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7bd913d9-eaa6-49fa-b89e-8be6c065caee",
+                    "path": "<Joystick>/trigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Game",
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -89,10 +112,10 @@
                 {
                     "name": "",
                     "id": "c0789493-8e1e-4dc9-a163-74b42aef3e75",
-                    "path": "",
+                    "path": "<HID::USB Gamepad >/button7",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Game",
                     "action": "GamePause",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -103,7 +126,7 @@
                     "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Game",
                     "action": "GamePause",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -113,8 +136,8 @@
     ],
     "controlSchemes": [
         {
-            "name": "Keyboard&&Mouse",
-            "bindingGroup": "Keyboard&&Mouse",
+            "name": "Game",
+            "bindingGroup": "Game",
             "devices": [
                 {
                     "devicePath": "<Keyboard>",
@@ -123,6 +146,11 @@
                 },
                 {
                     "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Gamepad>",
                     "isOptional": false,
                     "isOR": false
                 }
