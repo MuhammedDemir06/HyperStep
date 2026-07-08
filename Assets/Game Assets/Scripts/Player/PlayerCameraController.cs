@@ -6,12 +6,10 @@ public class PlayerCameraController : MonoBehaviour
 
     public Vector3 offset;
 
-    private Camera playerCamera;
-    private Vector3 velocity = Vector3.zero;
-
+    private Transform playerCamera;
     private void Start()
     {
-        playerCamera = Camera.main;
+        playerCamera = Camera.main.transform.root;
 
         if (playerCamera == null)
         {
@@ -21,12 +19,10 @@ public class PlayerCameraController : MonoBehaviour
     private void Update()
     {
         if (playerCamera == null)
-        {
             return;
-        }
 
         Vector3 desiredPosition = transform.position + offset;
 
-        playerCamera.transform.position = Vector3.Lerp(playerCamera.transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
+        playerCamera.position = Vector3.Lerp(playerCamera.position, desiredPosition, smoothSpeed * Time.deltaTime);
     }
 }

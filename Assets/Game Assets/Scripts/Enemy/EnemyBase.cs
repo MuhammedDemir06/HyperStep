@@ -1,5 +1,6 @@
-﻿using UnityEngine;
-using IronTools.Attributes;
+﻿using IronTools.Attributes;
+using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 [RequireComponent(typeof(CapsuleCollider2D))]
 public class EnemyBase : MonoBehaviour,ILevelInitializable
@@ -21,6 +22,9 @@ public class EnemyBase : MonoBehaviour,ILevelInitializable
     [SerializeField] protected string attackAnimName = "Attack";
     [ShowIf("canAttack")]
     [SerializeField] private float attackCooldown = 1.5f;
+    [ShowIf("canAttack")]
+    [Range(1,100),SerializeField] private int damageAmount = 20;
+
     private float lastAttackTime;
 
     protected Transform player;
@@ -37,7 +41,6 @@ public class EnemyBase : MonoBehaviour,ILevelInitializable
     protected virtual void Start()
     {
         canMove = true;
-     //   player = PlayerManager.Player; 
     }
     public void Initialize(IGameStateService gameStateService)
     {
@@ -48,7 +51,7 @@ public class EnemyBase : MonoBehaviour,ILevelInitializable
     }
     private void HandleStateChanged(GameState newState)
     {
-        canMove = (newState == GameState.Paused);
+        canMove = (newState != GameState.Paused);
     }
     //Only Patrol
     protected virtual void Patrol()
@@ -83,20 +86,22 @@ public class EnemyBase : MonoBehaviour,ILevelInitializable
     //Patrol and Attack Player
     protected virtual void SearchForPlayer()
     {
-        if (player != null && IsPlayerInSight())
+        Transform detectedPlayer = ScanForPlayer();
+
+        if (detectedPlayer != null && IsPlayerInSight(detectedPlayer))
         {
-            float distance = Vector2.Distance(transform.position, player.position);
+            float distance = Vector2.Distance(transform.position, detectedPlayer.position);
             if (distance <= attackRange)
             {
                 if (Time.time >= lastAttackTime + attackCooldown)
                 {
-                    Attack();
+                    Attack(detectedPlayer);
                     lastAttackTime = Time.time;
                 }
             }
             else
             {
-                Chase();
+                Chase(detectedPlayer);
             }
         }
         else
@@ -104,31 +109,52 @@ public class EnemyBase : MonoBehaviour,ILevelInitializable
             Patrol();
         }
     }
-    private bool IsPlayerInSight()
+    private Transform ScanForPlayer()
     {
-        Vector2 directionToPlayer = player.position - transform.position;
-
-        if (directionToPlayer.magnitude > detectionRange)
-            return false;
+        Collider2D hitPlayer = Physics2D.OverlapCircle(transform.position, detectionRange, playerLayer);
+        if (hitPlayer != null)
+        {
+            return hitPlayer.transform;
+        }
+        return null;
+    }
+    private bool IsPlayerInSight(Transform targetPlayer)
+    {
+        Vector2 directionToPlayer = targetPlayer.position - transform.position;
 
         RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToPlayer.normalized, detectionRange, playerLayer);
 
         return hit.collider != null && hit.collider.CompareTag("Player");
     }
-    private void Chase()
+    private void Chase(Transform targetPlayer)
     {
-        Vector2 dir = (player.position - transform.position).normalized;
+        Vector2 dir = (targetPlayer.position - transform.position).normalized;
         transform.Translate(dir * speed * Time.deltaTime);
 
-        if ((player.position.x > transform.position.x && !movingRight) || (player.position.x < transform.position.x && movingRight))
+        if ((targetPlayer.position.x > transform.position.x && !movingRight) || (targetPlayer.position.x < transform.position.x && movingRight))
         {
             Flip();
         }
     }
-    private void Attack()
+    private void Attack(Transform player)
     {
-        anim.SetTrigger(attackAnimName);
+        if (anim != null) anim.SetTrigger(attackAnimName);
+
+        if (player.TryGetComponent<IHealth>(out var health))
+        {
+            health.TakeDamage(damageAmount);
+        }
         Debug.Log("Attacking player!");
+    }
+    private void OnDrawGizmosSelected()
+    {
+        if(canAttack)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, detectionRange);
+            Gizmos.color = Color.orange;
+            Gizmos.DrawWireSphere(transform.position, attackRange);
+        }
     }
     protected virtual void Update()
     {

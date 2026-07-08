@@ -1,14 +1,10 @@
 fileFormatVersion: 2
-guid: 4f90b440147d07c45b221ca084b4aad7
-AssetOrigin:
-  serializedVersion: 1
-  productId: 199010
-  packageName: Dark Theme UI
-  packageVersion: 1.1
-  assetPath: Assets/Dark UI/New Icons/White Stop.png
-  uploadId: 761092
+guid: 49a1f56806995164ebf5cf3958a6eb89
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: -8423143530631983509
+    second: Screenshot 2026-07-08 205011_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -41,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -50,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -128,12 +124,34 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Screenshot 2026-07-08 205011_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 164
+        height: 146
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6e0d8c269bfa1b80800000000000000
+      internalID: -8423143530631983509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -142,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Screenshot 2026-07-08 205011_0: -8423143530631983509
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

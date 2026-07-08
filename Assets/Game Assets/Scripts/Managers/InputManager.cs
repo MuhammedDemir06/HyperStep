@@ -8,6 +8,7 @@ public class InputManager : IInputProvider
     //Inputs
     public event System.Action OnJump;
     public event System.Action OnPaused;
+    public event System.Action OnDash;
 
     public void NewInputService()
     {
@@ -16,13 +17,11 @@ public class InputManager : IInputProvider
 
         gameInput.Player.Jump.performed += ctx => OnJump?.Invoke();
         gameInput.UI.GamePause.performed += ctx => OnPaused?.Invoke();
+        gameInput.Player.Dash.performed += ctx => OnDash?.Invoke();
     }
     public void NewInputServiceDisable()
     {
         gameInput.Disable();
     }
-    public void UpdateInput()
-    {
-        InputX = gameInput.Player.Move.ReadValue<Vector2>().x;
-    }
+    public void UpdateInputX() => InputX = gameInput.Player.Move.ReadValue<Vector2>().x;
 }

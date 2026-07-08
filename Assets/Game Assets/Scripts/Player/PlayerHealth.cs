@@ -13,14 +13,18 @@ public class PlayerHealth : MonoBehaviour,IHealth
 
     private IGameStateService _gameStateService;
     private PlayerController _playerController;
+    private PlayerEffects _playerEffects;
+    private PlayerCameraShake _playerShake;
     private void Start()
     {
         playerHealth = playerMaxHealth;
     }
-    public void Construct(IGameStateService gameStateService,PlayerController playerController)
+    public void Construct(IGameStateService gameStateService,PlayerController playerController,PlayerEffects playerEffects,PlayerCameraShake playerCameraShake)
     {
         _gameStateService = gameStateService;
         _playerController = playerController;
+        _playerEffects = playerEffects;
+        _playerShake = playerCameraShake;
     }
     public void TakeDamage(float damageAmount)
     {
@@ -31,10 +35,12 @@ public class PlayerHealth : MonoBehaviour,IHealth
         if (playerHealth <= 0)
         {
             _gameStateService.ChangeState(GameState.Death);
-            _playerController.ChangePlayerState(new DeathState());
+            _playerController.ChangePlayerState(_playerController.NewDeathState);
+            _playerShake.TriggerShake(CameraShakeType.Hard);
         }
 
         OnHealthChanged?.Invoke(playerHealth);
+        _playerEffects.TakeDamage();
     }
     public void TakeHeal(float healAmount)
     {

@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using IronTools.Attributes;
 using System;
 public class PlayerController : MonoBehaviour
@@ -20,17 +20,23 @@ public class PlayerController : MonoBehaviour
     [ShowDivider(EditorColor.Green, "Referances")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
-  //  public Animator PlayerAnim;
+
+    public LayerMask GroundLayer {  get { return groundLayer; }}
+
+    private CapsuleCollider2D playerCollider;
+    public CapsuleCollider2D PlayerCollider { get { return playerCollider; }}
 
     private IState currentState;
     private Rigidbody2D rb;
     public Rigidbody2D Rb { get { return rb; } }
 
     private bool canMove;
+    private float inputX;
     public bool CanMove { get { return canMove; } }
     private IInputProvider _inputProvider;
     private IGameStateService _gameStateService;
     private PlayerAnimationController _playerAnimationController;
+    private PlayerCameraShake _playerCameraShake;
     public PlayerAnimationController PlayerAnimation {  get { return _playerAnimationController; } }
     public GameState CurrentState => throw new NotImplementedException();
 
@@ -39,52 +45,64 @@ public class PlayerController : MonoBehaviour
     public IState NewWalkingState;
     public IState NewJumpingState;
     public IState NewDeathState;
+    public IState NewDashState;
     private void Awake()
     {
         Init();
-    }
-    private void Init()
-    {
-        rb = GetComponent<Rigidbody2D>();
-
-        NewIdleState = new IdleState();
-        NewWalkingState = new WalkingState();
-        NewJumpingState = new JumpingState();
-        NewDeathState = new DeathState();
-
-        currentState = NewIdleState;
-        currentState.EnterState(this);
-
-        canMove = true;
-    }
-    public void Construct(IInputProvider provider,IGameStateService gameState,PlayerAnimationController playerAnimationController)
-    {
-        _gameStateService = gameState;
-        _inputProvider = provider;
-        _playerAnimationController = playerAnimationController;
-
-        _inputProvider.OnJump += Jump;
-        _gameStateService.OnStateChanged += HandleChangeState;
-    }
-    private void Move()
-    {
-        var input = _inputProvider.InputX;
-
-        if (!canMove || IsDead)
-            return;
-
-        rb.linearVelocity = new Vector2(moveSpeed * input, rb.linearVelocity.y);
-        IsWalking = input != 0;
-
-        _playerAnimationController.MoveAnim(input);
-
-        SetDirection(input);
     }
     private void Update()
     {
         Move();
 
         currentState.UpdateState(this);
+    }
+    private void OnDisable()
+    {
+        if (_gameStateService != null)
+        {
+            _gameStateService.OnStateChanged -= HandleChangeState;
+        }
+    }
+    private void Init()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        playerCollider = GetComponent<CapsuleCollider2D>();
+
+        NewIdleState = new IdleState();
+        NewWalkingState = new WalkingState();
+        NewJumpingState = new JumpingState();
+        NewDeathState = new DeathState();
+        NewDashState = new DashState();
+
+        currentState = NewIdleState;
+        currentState.EnterState(this);
+
+        canMove = true;
+    }
+    public void Construct(IInputProvider provider,IGameStateService gameState,PlayerAnimationController playerAnimationController,PlayerCameraShake playerCameraShake)
+    {
+        _gameStateService = gameState;
+        _inputProvider = provider;
+        _playerAnimationController = playerAnimationController;
+        _playerCameraShake = playerCameraShake;
+
+        _inputProvider.OnJump += Jump;
+        _gameStateService.OnStateChanged += HandleChangeState;
+        _inputProvider.OnDash += Dash;
+    }
+    private void Move()
+    {
+        inputX = _inputProvider.InputX;
+
+        if (!canMove || IsDead)
+            return;
+
+        rb.linearVelocity = new Vector2(moveSpeed * inputX, rb.linearVelocity.y);
+        IsWalking = inputX != 0;
+
+        _playerAnimationController.MoveAnim(inputX);
+
+        SetDirection(inputX);
     }
     private void SetDirection(float input)
     {
@@ -117,5 +135,12 @@ public class PlayerController : MonoBehaviour
     {
         canMove = (newState != GameState.Paused);
         rb.simulated = canMove;
+    }
+    public void Dash()
+    {
+        if (!canMove || IsDead || inputX == 0) return;
+
+        _playerCameraShake.TriggerShake(CameraShakeType.Medium);
+        ChangePlayerState(NewDashState);
     }
 }

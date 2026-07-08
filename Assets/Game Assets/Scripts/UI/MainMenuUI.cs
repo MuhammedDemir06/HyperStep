@@ -23,6 +23,6 @@ public class MainMenuUI : MonoBehaviour
     //Test Button**
     public void PlayButton()
     {
-        SceneTransitionManager.Instance.LoadScene("Game");
+        SceneTransitionManager.Instance.LoadScene(SceneType.Game);
     }
 }

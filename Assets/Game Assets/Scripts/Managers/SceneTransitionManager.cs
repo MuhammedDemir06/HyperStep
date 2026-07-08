@@ -3,7 +3,11 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using DG.Tweening;
 using System.Collections;
-
+public enum SceneType
+{
+    Menu = 0,
+    Game = 1
+}
 public class SceneTransitionManager : MonoBehaviour
 {
     public static SceneTransitionManager Instance;
@@ -28,20 +32,19 @@ public class SceneTransitionManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
     private void Start()
     {
         FadeIn(); 
     }
-    public void LoadScene(string sceneName)
+    public void LoadScene(SceneType sceneType)
     {
-        StartCoroutine(LoadSceneAsync(sceneName));
+        StartCoroutine(LoadSceneAsync(sceneType));
     }
     private void DeactivateTransitionUI(bool state)
     {
         transitionUI.SetActive(state);
     }
-    private IEnumerator LoadSceneAsync(string sceneName)
+    private IEnumerator LoadSceneAsync(SceneType sceneType)
     {
         DeactivateTransitionUI(true);
 
@@ -49,7 +52,7 @@ public class SceneTransitionManager : MonoBehaviour
 
         loadingGroup.SetActive(true);
 
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync((int)sceneType);
         asyncLoad.allowSceneActivation = false;
 
         while (asyncLoad.progress < 0.9f)
@@ -66,6 +69,8 @@ public class SceneTransitionManager : MonoBehaviour
         yield return transitionImage.DOFade(0f, fadeDuration).WaitForCompletion();
 
         DeactivateTransitionUI(false);
+
+        
     }
     private void FadeIn()
     {

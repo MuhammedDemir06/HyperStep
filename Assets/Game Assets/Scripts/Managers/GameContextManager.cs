@@ -36,6 +36,6 @@ public class GameContextManager : MonoBehaviour
     }
     private void Update()
     {
-        _newInputManager.UpdateInput();
+        _newInputManager.UpdateInputX();
     }
 }

@@ -17,7 +17,7 @@ public class GameUIController : MonoBehaviour
     }
     private void OnStateChanged(GameState currentState)
     {
-        switch(currentState)
+        switch (currentState)
         {
             case GameState.Paused:
                 ShowPauseMode();
@@ -29,7 +29,6 @@ public class GameUIController : MonoBehaviour
                 ShowDeathMode();
                 break;
         }
-        Debug.Log("Worked!");
     }
     private void ShowGameplayMode()
     {

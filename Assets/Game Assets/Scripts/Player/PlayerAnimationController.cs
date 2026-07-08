@@ -19,4 +19,8 @@ public class PlayerAnimationController : MonoBehaviour
     {
         playerAnim.SetBool("IsGrounded", value);
     }
+    public void DashAnim()
+    {
+        playerAnim.SetTrigger("Dash");
+    }
 }

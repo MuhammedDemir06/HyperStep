@@ -23,6 +23,8 @@ public class LevelLoadManager : MonoBehaviour
     }
     public void LoadLevel(string chapter, int index)
     {
+        _gameStateService.ChangeState(GameState.GamePlay);
+
         if (targetTilemap == null)
         {
             Debug.LogError("❌ Target Tilemap not assigned.");

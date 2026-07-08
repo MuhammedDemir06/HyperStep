@@ -1,13 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-
 public class SharedButtonHandler : MonoBehaviour
 {
     [SerializeField] private Button menuButton;
     [SerializeField] private Button restartButton;
     [SerializeField] private Button settingButton;
-
     private void Awake()
     {
         if (menuButton != null)
@@ -21,11 +18,11 @@ public class SharedButtonHandler : MonoBehaviour
     }
     private void OnMenuClicked()
     {
-        SceneTransitionManager.Instance.LoadScene("Menu");
+        SceneTransitionManager.Instance.LoadScene(SceneType.Menu);
     }
     private void OnRestartClicked()
     {
-        SceneTransitionManager.Instance.LoadScene(SceneManager.GetActiveScene().name);
+        SceneTransitionManager.Instance.LoadScene(SceneType.Game);
     }
     private void OnSettingClicked()
     {
