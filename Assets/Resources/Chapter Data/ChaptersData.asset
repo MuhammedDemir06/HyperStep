@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: ChaptersData
   m_EditorClassIdentifier: Assembly-CSharp::ChapterData
   Chapters:
-  - ChapterName: Classic
+  - ChapterName: Forest
     Levels:
-    - {fileID: 11400000, guid: e440fefdf5a4fa24baf0dea68a90fa5c, type: 2}
+    - {fileID: 11400000, guid: 971eeddddc0c41f4f887c00629c36981, type: 2}

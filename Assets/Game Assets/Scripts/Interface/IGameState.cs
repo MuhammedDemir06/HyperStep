@@ -3,7 +3,6 @@ using UnityEngine;
 public interface IGameStateService
 {
     GameState CurrentState { get; }
-
     event System.Action<GameState> OnStateChanged;
     void ChangeState(GameState newState);
     void Construct(IInputProvider provider);

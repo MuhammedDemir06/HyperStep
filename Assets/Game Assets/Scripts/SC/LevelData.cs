@@ -35,4 +35,5 @@ public class LevelData : ScriptableObject
     public string CurrentChapterName;
     public List<LevelTileData> Tiles = new List<LevelTileData>();
     public List<LevelCategoryData> Objects = new List<LevelCategoryData>();
+    public int LevelTimeLimit;
 }

@@ -11,7 +11,6 @@ public class DashState : IState
         player.PlayerAnimation.DashAnim();
 
         _wallLayer = player.GroundLayer;
-        Debug.Log("Entered Dash State");
 
         Vector2 direction = player.transform.localScale.x > 0 ? Vector2.right : Vector2.left;
 
@@ -73,6 +72,6 @@ public class DashState : IState
     }
     public void ExitState(PlayerController player)
     {
-        Debug.Log("Exited Dash State");
+       // Debug.Log("Exited Dash State");
     }
 }

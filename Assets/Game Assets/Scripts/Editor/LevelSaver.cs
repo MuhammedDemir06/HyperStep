@@ -94,7 +94,7 @@ public static class LevelSaver
             }
         }
     }
-    public static void SaveLevel(Tilemap tilemap, LevelData levelData, string chapterName)
+    public static void SaveLevel(Tilemap tilemap, LevelData levelData, string chapterName,int timeLimit)
     {
         if (tilemap == null)
         {
@@ -105,6 +105,7 @@ public static class LevelSaver
         LevelData newLevelData = levelData != null ? levelData : ScriptableObject.CreateInstance<LevelData>();
 
         newLevelData.CurrentChapterName = chapterName;
+        newLevelData.LevelTimeLimit = timeLimit;
 
         SaveTilemap(tilemap, newLevelData);
         SaveObjects(newLevelData);

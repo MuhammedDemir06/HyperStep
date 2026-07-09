@@ -9,6 +9,7 @@ public class GameContextManager : MonoBehaviour
     [SerializeField] private LevelLoadManager levelLoadManager;
 
     [SerializeField] private GameUIInstaller gameUIInstaller;
+    [SerializeField] private TimeManager timeManager;
 
     private void OnEnable()
     {
@@ -24,11 +25,12 @@ public class GameContextManager : MonoBehaviour
     private void Start()
     {
         //wiring
+        gameUIInstaller.MainConstruct(_gameStateService, playerInstaller.Health, playerInstaller.Controller,timeManager);
+
         playerInstaller.PlayerConstructs(_gameStateService, _newInputManager);
 
         levelLoadManager.Construct(_gameStateService);
-
-        gameUIInstaller.MainConstruct(_gameStateService, playerInstaller.Health);
+        timeManager.Construct(levelLoadManager,_gameStateService);
     }
     private void OnDisable()
     {

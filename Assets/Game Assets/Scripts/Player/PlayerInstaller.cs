@@ -31,4 +31,5 @@ public class PlayerInstaller : MonoBehaviour
         playerHealth.Construct(gameStateService, playerController, playerEffects, playerShake);
     }
     public IHealth Health => playerHealth;
+    public PlayerController Controller => playerController;
 }

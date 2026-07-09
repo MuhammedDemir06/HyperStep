@@ -14,17 +14,23 @@ public class LevelLoadManager : MonoBehaviour
     [Header("Tile Resources Path")]
     public string tileResourcesPath = "Tiles/";
 
+    public int LevelTime = 0;
+
     private IGameStateService _gameStateService;
     public void Construct(IGameStateService gameStateService)
     {
         _gameStateService = gameStateService;
 
+        GameStart();
+    }
+    private void GameStart()
+    {
+        _gameStateService.ChangeState(GameState.GamePlay);
+
         LoadLevel(chapterName, levelIndex);
     }
     public void LoadLevel(string chapter, int index)
     {
-        _gameStateService.ChangeState(GameState.GamePlay);
-
         if (targetTilemap == null)
         {
             Debug.LogError("❌ Target Tilemap not assigned.");
@@ -87,6 +93,7 @@ public class LevelLoadManager : MonoBehaviour
                     Debug.LogWarning($"⚠️ Prefab '{objData.PrefabID}' not found at '{prefabPath}'");
             }
         }
+        LevelTime = levelData.LevelTimeLimit;
 
         Debug.Log($"✅ Level Loaded: Chapter '{chapter}', Level {index}");
     }

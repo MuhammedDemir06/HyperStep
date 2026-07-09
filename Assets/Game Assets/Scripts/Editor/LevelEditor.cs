@@ -7,6 +7,10 @@ public class LevelEditor : EditorWindow
 {
     private Tilemap targetTilemap;
 
+    private const int DefaultTimeLimit = 60;
+
+    private int timeLimit = DefaultTimeLimit;
+
     private bool isEditingLoadedLevel = false;
     private LevelData loadedLevelData = null;
 
@@ -41,6 +45,8 @@ public class LevelEditor : EditorWindow
 
         TilemapReferance();
 
+        TimeLimit();
+
         ChapterCounter();
 
         Save();
@@ -57,6 +63,20 @@ public class LevelEditor : EditorWindow
         DrawPrefabGallery();
 
         EditorGUILayout.EndScrollView();
+    }
+    private void TimeLimit()
+    {
+        EditorGUILayout.Space(5);
+
+        timeLimit = EditorGUILayout.IntField("Time Limit (sec)", timeLimit);
+        timeLimit = Mathf.Max(1, timeLimit);
+
+        GUIStyle safetyStyle = EditorStyles.miniLabel ?? "miniLabel";
+
+        EditorGUILayout.LabelField(
+            "Duration",
+            System.TimeSpan.FromSeconds(timeLimit).ToString(@"mm\:ss"),
+            safetyStyle);
     }
     private void ChapterCounter()
     {
@@ -250,7 +270,7 @@ public class LevelEditor : EditorWindow
                 return;
             }
 
-            LevelSaver.SaveLevel(targetTilemap, loadedLevelData, chapterName);
+            LevelSaver.SaveLevel(targetTilemap, loadedLevelData, chapterName,timeLimit);
         }
 
         if (GUILayout.Button("Remove Chapter", GUILayout.Height(40)))
@@ -309,7 +329,7 @@ public class LevelEditor : EditorWindow
 
         if (GUILayout.Button(buttonText, GUILayout.Height(40)))
         {
-            LevelLoader.LoadLevel(loadedLevelData, targetTilemap);
+            LevelLoader.LoadLevel(timeLimit,loadedLevelData, targetTilemap);
             isEditingLoadedLevel = true;
             Debug.Log($"Level '{loadedLevelData.name}' loaded into scene for editing.");
         }

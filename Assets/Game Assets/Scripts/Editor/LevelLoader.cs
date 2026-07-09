@@ -4,7 +4,7 @@ using UnityEngine.Tilemaps;
 
 public static class LevelLoader
 {
-    public static void LoadLevel(LevelData levelData, Tilemap tilemap, Transform parent = null)
+    public static void LoadLevel(float timeLimit,LevelData levelData, Tilemap tilemap, Transform parent = null)
     {
         if (levelData == null || tilemap == null)
         {
@@ -44,6 +44,8 @@ public static class LevelLoader
                 }
             }
         }
+
+        timeLimit = levelData.LevelTimeLimit;
     }
     private static string GetPrefabPathByCategory(LevelObjectCategory category, string prefabID)
     {

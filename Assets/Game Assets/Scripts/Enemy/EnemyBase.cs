@@ -42,6 +42,10 @@ public class EnemyBase : MonoBehaviour,ILevelInitializable
     {
         canMove = true;
     }
+    private void OnDisable()
+    {
+        _gameStateService.OnStateChanged -= HandleStateChanged;
+    }
     public void Initialize(IGameStateService gameStateService)
     {
         _gameStateService =  gameStateService;

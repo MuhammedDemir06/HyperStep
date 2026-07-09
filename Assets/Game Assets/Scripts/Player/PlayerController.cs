@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using IronTools.Attributes;
 using System;
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour,IPlayer
 {
     [ShowDivider(EditorColor.Green, "Player Controller")]
     public bool IsDead;
@@ -20,6 +20,12 @@ public class PlayerController : MonoBehaviour
     [ShowDivider(EditorColor.Green, "Referances")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
+
+    [ShowDivider(EditorColor.Green, "Dash Setting")]
+    [SerializeField] private float dashCooldown = 10f;
+
+    private float currentDashCooldown;
+    public bool CanDash => currentDashCooldown >= dashCooldown;
 
     public LayerMask GroundLayer {  get { return groundLayer; }}
 
@@ -46,6 +52,9 @@ public class PlayerController : MonoBehaviour
     public IState NewJumpingState;
     public IState NewDeathState;
     public IState NewDashState;
+
+    public event Action<float> OnDashCooldownChanged;
+
     private void Awake()
     {
         Init();
@@ -78,6 +87,8 @@ public class PlayerController : MonoBehaviour
         currentState.EnterState(this);
 
         canMove = true;
+
+        currentDashCooldown = dashCooldown;
     }
     public void Construct(IInputProvider provider,IGameStateService gameState,PlayerAnimationController playerAnimationController,PlayerCameraShake playerCameraShake)
     {
@@ -89,6 +100,9 @@ public class PlayerController : MonoBehaviour
         _inputProvider.OnJump += Jump;
         _gameStateService.OnStateChanged += HandleChangeState;
         _inputProvider.OnDash += Dash;
+
+        //
+        OnDashCooldownChanged?.Invoke(dashCooldown);
     }
     private void Move()
     {
@@ -135,12 +149,35 @@ public class PlayerController : MonoBehaviour
     {
         canMove = (newState != GameState.Paused);
         rb.simulated = canMove;
+
+        if (newState == GameState.Death)
+            ChangePlayerState(NewDeathState);
     }
     public void Dash()
     {
-        if (!canMove || IsDead || inputX == 0) return;
+        if (!canMove || IsDead || inputX == 0 || !CanDash)
+            return;
 
         _playerCameraShake.TriggerShake(CameraShakeType.Medium);
         ChangePlayerState(NewDashState);
+
+        StartCoroutine(DashCooldownRoutine());
+    }
+    private System.Collections.IEnumerator DashCooldownRoutine()
+    {
+        currentDashCooldown = 0;
+
+        while (dashCooldown > currentDashCooldown)
+        {
+            currentDashCooldown += Time.deltaTime;
+
+            OnDashCooldownChanged?.Invoke(currentDashCooldown / dashCooldown);
+
+            yield return null;
+        }
+
+        currentDashCooldown = dashCooldown;
+
+        OnDashCooldownChanged?.Invoke(dashCooldown);
     }
 }
