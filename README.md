@@ -1,35 +1,83 @@
-# 🎮 Hyper Step – Open Source 2D Platformer Game
+🎮 Hyper Step – Open Source 2D Platformer
 
-Welcome to **Hyper Step**, a fully open-source 2D platformer built with **Unity**.  
-This project is part of a public devlog series where I share every step of development on my YouTube channel.
+Hyper Step is an open-source 2D platformer developed with Unity. The project focuses on clean architecture, gameplay programming, and editor tooling while documenting the entire development process through a public devlog series.
 
-> ⚙️ Built using: Unity, C#, State Machine Architecture
+Designed with a cross-platform approach, the game is optimized for both PC and mobile platforms, making it easy to expand to additional platforms supported by Unity.
 
----
+The goal of this project is to serve as both a playable game and a learning resource for Unity developers interested in game architecture and workflow.
 
-## 📺 Devlog Series on YouTube
-
-Watch the full development process, from code to gameplay:  
-📌 [YouTube Channel – Devlog Playlist](https://www.youtube.com/watch?v=YAFqjKi3qeU&list=PLyjT6zzZrodjZgE11ABpBXwN-6MebG2A-)
+> **Built with:** Unity 6, C#, DOTween, ScriptableObjects, Architecture
 
 ---
 
-## 🔧 Current Features
+## 📺 Development Devlogs
 
-- ✅ Player movement and jump
-- ✅ Basic animation system using State Machine
-- 🛠️ More to come...
+Follow the complete development journey on YouTube:
+
+**YouTube Playlist:**
+https://www.youtube.com/watch?v=YAFqjKi3qeU&list=PLyjT6zzZrodjZgE11ABpBXwN-6MebG2A-
 
 ---
 
-## 📢 Contributing & Feedback
+## Features
 
-Feel free to fork this project, open issues, or suggest improvements.  
-**Feedback is welcome!** Let's build this game together.
+* Player movement
+* Dash system 
+* State Machine based player controller
+* Dynamic level loading
+* Custom Level Editor
+* ScriptableObject-based level data
+* Countdown timer system
+* Enemy system
+* Camera shake effects
+* DOTween UI animations
+* Event-driven UI architecture
+* Manual Dependency Injection (Manual DI)
 
-## Unity Version Unity 6000.0.47f1
 ---
 
-## 📄 License
+## Screenshots
 
-This project is released under the [MIT License](LICENSE).
+### Mobile POV:
+![MobilePOV](Screenshots/MobilePOV.png)
+
+### Pc POV:
+![PcPOV](Screenshots/PcPOV.png)
+
+### Level Editor POV:
+![LevelEditor](Screenshots/LevelEditor.png)
+
+---
+
+## Project Structure
+
+The project is built around a modular architecture to keep gameplay systems separated and maintainable.
+
+Some of the main systems include:
+
+* State Machine architecture
+* Dynamic level loading
+* Custom editor tools
+* ScriptableObject workflow
+* Event-driven communication
+* Manual Dependency Injection
+
+---
+
+## Unity Version
+
+**Unity 6000.0.47f1**
+
+---
+
+## Contributing
+
+Contributions, bug reports, feature suggestions, and feedback are always welcome.
+
+If you have ideas for improving the project, feel free to open an issue or submit a pull request.
+
+---
+
+## License
+
+This project is licensed under the MIT License. See the **LICENSE** file for more information.
