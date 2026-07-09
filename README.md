@@ -38,8 +38,6 @@ https://www.youtube.com/watch?v=YAFqjKi3qeU&list=PLyjT6zzZrodjZgE11ABpBXwN-6MebG
 
 ## Screenshots
 
-## Screenshots
-
 ### Mobile POV:
 ![MobilePOV](./Screenshots/MobilePOV.png)
 
