@@ -38,14 +38,16 @@ https://www.youtube.com/watch?v=YAFqjKi3qeU&list=PLyjT6zzZrodjZgE11ABpBXwN-6MebG
 
 ## Screenshots
 
+## Screenshots
+
 ### Mobile POV:
-![MobilePOV](Screenshots/MobilePOV.png)
+![MobilePOV](./Screenshots/MobilePOV.png)
 
 ### Pc POV:
-![PcPOV](Screenshots/PcPOV.png)
+![PcPOV](./Screenshots/PcPOV.png)
 
 ### Level Editor POV:
-![LevelEditor](Screenshots/LevelEditor.png)
+![LevelEditor](./Screenshots/LevelEditor.png)
 
 ---
 
