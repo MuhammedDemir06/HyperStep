@@ -19,6 +19,8 @@ public static class PrefabGalleryUtility
         LoadCategory("Normal");
         LoadCategory("Traps");
         LoadCategory("Enemies");
+        LoadCategory("Finish");
+        LoadCategory("Spawn");
     }
 
     private static void LoadCategory(string category)

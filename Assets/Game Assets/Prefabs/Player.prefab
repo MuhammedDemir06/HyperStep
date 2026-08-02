@@ -180,7 +180,7 @@ TrailRenderer:
     generateLightingData: 0
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
-  m_Emitting: 1
+  m_Emitting: 0
   m_ApplyActiveColorSpace: 1
 --- !u!1 &6675719550740220864
 GameObject:
@@ -324,6 +324,8 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
+  dashCooldown: 5
+  playerTrailEffect: {fileID: 2921831876917659708}
 --- !u!114 &1464503972404989130
 MonoBehaviour:
   m_ObjectHideFlags: 0

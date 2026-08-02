@@ -71,4 +71,15 @@ public class DashUI : MonoBehaviour
     }
     public void Show() => dashPanel.Show();
     public void Hide() => dashPanel.Hide();
+    private void OnDestroy()
+    {
+        fillTween?.Kill();
+        idleTween?.Kill();
+
+        if (dashParentImage != null)
+            dashParentImage.transform.DOKill();
+
+        if (dashBarImage != null)
+            dashBarImage.DOKill();
+    }
 }

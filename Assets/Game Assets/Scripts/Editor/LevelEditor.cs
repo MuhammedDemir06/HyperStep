@@ -11,6 +11,8 @@ public class LevelEditor : EditorWindow
 
     private int timeLimit = DefaultTimeLimit;
 
+    private Sprite backgroundSprite;
+
     private bool isEditingLoadedLevel = false;
     private LevelData loadedLevelData = null;
 
@@ -46,6 +48,7 @@ public class LevelEditor : EditorWindow
         TilemapReferance();
 
         TimeLimit();
+        BackgroundSprite();
 
         ChapterCounter();
 
@@ -77,6 +80,14 @@ public class LevelEditor : EditorWindow
             "Duration",
             System.TimeSpan.FromSeconds(timeLimit).ToString(@"mm\:ss"),
             safetyStyle);
+    }
+    private void BackgroundSprite()
+    {
+        backgroundSprite = (Sprite)EditorGUILayout.ObjectField(
+            "Background Sprite",
+            backgroundSprite,
+            typeof(Sprite),
+            false);
     }
     private void ChapterCounter()
     {
@@ -239,6 +250,12 @@ public class LevelEditor : EditorWindow
 
         if (GUILayout.Button("💾 Save Changes", GUILayout.Height(40)) && !isEditingLoadedLevel)
         {
+            if (backgroundSprite == null)
+            {
+                Debug.LogError("Background Sprite is not assigned!");
+                return;
+            }
+
             if (targetTilemap == null)
             {
                 Debug.LogError("No Tilemap assigned. Please assign a Tilemap before saving.");
@@ -250,6 +267,42 @@ public class LevelEditor : EditorWindow
                 Debug.LogError("Invalid Tile size! Make sure the width and height of each cell are greater than 0.");
                 return;
             }
+            #region Finish
+            GameObject[] finishObjects = GameObject.FindGameObjectsWithTag("Finish");
+
+            if (finishObjects.Length == 0)
+            {
+                Debug.LogError("Level must contain exactly one Finish object.");
+                return;
+            }
+
+            if (finishObjects.Length > 1)
+            {
+                Selection.objects = finishObjects;
+
+                Debug.LogError(
+                    $"Level contains {finishObjects.Length} Finish objects. Only one Finish object is allowed."
+                );
+                return;
+            }
+            #endregion
+            #region Spawn
+            GameObject[] spawnObj = GameObject.FindGameObjectsWithTag("Spawn");
+
+            if (spawnObj.Length == 0)
+            {
+                Debug.LogError("Level must contain exactly one Spawn object. No Spawn object was found in the scene.");
+                return;
+            }
+
+            if (spawnObj.Length > 1)
+            {
+                Selection.objects = spawnObj;
+
+                Debug.LogError($"Level contains {spawnObj.Length} Spawn objects. Only one Spawn object is allowed.");
+                return;
+            }
+            #endregion
 
             int tileCount = 0;
 
@@ -270,7 +323,7 @@ public class LevelEditor : EditorWindow
                 return;
             }
 
-            LevelSaver.SaveLevel(targetTilemap, loadedLevelData, chapterName,timeLimit);
+            LevelSaver.SaveLevel(targetTilemap, loadedLevelData, chapterName,timeLimit,backgroundSprite);
         }
 
         if (GUILayout.Button("Remove Chapter", GUILayout.Height(40)))
@@ -329,7 +382,7 @@ public class LevelEditor : EditorWindow
 
         if (GUILayout.Button(buttonText, GUILayout.Height(40)))
         {
-            LevelLoader.LoadLevel(timeLimit,loadedLevelData, targetTilemap);
+            LevelLoader.LoadLevel(backgroundSprite,timeLimit,loadedLevelData, targetTilemap);
             isEditingLoadedLevel = true;
             Debug.Log($"Level '{loadedLevelData.name}' loaded into scene for editing.");
         }
@@ -379,6 +432,8 @@ public class LevelEditor : EditorWindow
                     isEditingLoadedLevel = false;
 
                     loadedLevelData = null;
+
+                    backgroundSprite = null;
 
                     LevelLoader.RemoveLevel();
 

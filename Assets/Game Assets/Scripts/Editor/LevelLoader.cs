@@ -4,7 +4,7 @@ using UnityEngine.Tilemaps;
 
 public static class LevelLoader
 {
-    public static void LoadLevel(float timeLimit,LevelData levelData, Tilemap tilemap, Transform parent = null)
+    public static void LoadLevel(Sprite backgroundSprite,float timeLimit,LevelData levelData, Tilemap tilemap, Transform parent = null)
     {
         if (levelData == null || tilemap == null)
         {
@@ -46,6 +46,7 @@ public static class LevelLoader
         }
 
         timeLimit = levelData.LevelTimeLimit;
+        backgroundSprite = levelData.BackgroundSprite;
     }
     private static string GetPrefabPathByCategory(LevelObjectCategory category, string prefabID)
     {
@@ -54,6 +55,8 @@ public static class LevelLoader
             case LevelObjectCategory.Normal: return $"Game/Normal/{prefabID}";
             case LevelObjectCategory.Trap: return $"Game/Traps/{prefabID}";
             case LevelObjectCategory.Enemy: return $"Game/Enemies/{prefabID}";
+            case LevelObjectCategory.Finish:return $"Game/Finish/{prefabID}";
+            case LevelObjectCategory.Spawn:return $"Game/Spawn/{prefabID}";
             default: return prefabID;
         }
     }
@@ -79,7 +82,7 @@ public static class LevelLoader
             if (obj == null)
                 continue;
 
-            if (obj.CompareTag("Normal") || obj.CompareTag("Trap") || obj.CompareTag("Enemy"))
+            if (obj.CompareTag("Normal") || obj.CompareTag("Trap") || obj.CompareTag("Enemy") || obj.CompareTag("Finish") || obj.CompareTag("Spawn"))
             {
                 Object.DestroyImmediate(obj);
             }

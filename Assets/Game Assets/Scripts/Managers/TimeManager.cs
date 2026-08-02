@@ -5,11 +5,16 @@ public class TimeManager : MonoBehaviour,ITime
 {
     [SerializeField] private float currentTime;
 
+    private bool isPaused;
+
     private LevelLoadManager _levelLoadManager;
     private IGameStateService _gameStateService;
 
     public event Action<int> OnTimeChanged;
-
+    private void OnDisable()
+    {
+        _gameStateService.OnStateChanged -= HandleGameStateChanged;
+    }
     public void Construct(LevelLoadManager levelLoadManager,IGameStateService gameStateService)
     {
         _levelLoadManager = levelLoadManager;
@@ -17,23 +22,37 @@ public class TimeManager : MonoBehaviour,ITime
 
         currentTime = _levelLoadManager.LevelTime;
 
+        _gameStateService.OnStateChanged += HandleGameStateChanged;
+
         StartCoroutine(TimerRoutine());
     }
+    private void HandleGameStateChanged(GameState gameState)
+    {
+        isPaused = gameState == GameState.Paused;
+    }
+    private int lastDisplayedTime = -1;
+
     private System.Collections.IEnumerator TimerRoutine()
     {
         while (currentTime > 0)
         {
-            currentTime -= Time.deltaTime;
+            if (!isPaused)
+            {
+                currentTime -= Time.deltaTime;
 
-            OnTimeChanged?.Invoke(Mathf.CeilToInt(currentTime));
+                int displayTime = Mathf.CeilToInt(currentTime);
 
-            yield return null; 
+                if (displayTime != lastDisplayedTime)
+                {
+                    lastDisplayedTime = displayTime;
+                    OnTimeChanged?.Invoke(displayTime);
+                }
+            }
+
+            yield return null;
         }
 
-        currentTime = 0;
         OnTimeChanged?.Invoke(0);
-
-        //Player Death
         _gameStateService.ChangeState(GameState.Death);
     }
 }

@@ -4,7 +4,6 @@ public class SharedButtonHandler : MonoBehaviour
 {
     [SerializeField] private Button menuButton;
     [SerializeField] private Button restartButton;
-    [SerializeField] private Button settingButton;
     private void Awake()
     {
         if (menuButton != null)
@@ -12,9 +11,6 @@ public class SharedButtonHandler : MonoBehaviour
 
         if (restartButton != null)
             restartButton.onClick.AddListener(OnRestartClicked);
-
-        if(settingButton!=null)
-            settingButton.onClick.AddListener(OnSettingClicked);
     }
     private void OnMenuClicked()
     {
@@ -23,9 +19,5 @@ public class SharedButtonHandler : MonoBehaviour
     private void OnRestartClicked()
     {
         SceneTransitionManager.Instance.LoadScene(SceneType.Game);
-    }
-    private void OnSettingClicked()
-    {
-        Debug.Log("Settings");
     }
 }

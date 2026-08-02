@@ -29,7 +29,7 @@ public class GameContextManager : MonoBehaviour
 
         playerInstaller.PlayerConstructs(_gameStateService, _newInputManager);
 
-        levelLoadManager.Construct(_gameStateService);
+        levelLoadManager.Construct(_gameStateService , playerInstaller.Controller);
         timeManager.Construct(levelLoadManager,_gameStateService);
     }
     private void OnDisable()

@@ -9,7 +9,7 @@ public interface IGameStateService
 }
 public enum GameState
 {
-    Paused,GamePlay,Death,Menu //....
+    Paused,GamePlay,Death,Menu,Finished //....
 }
 public class GameStateService : IGameStateService
 {

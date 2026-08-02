@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using IronTools.Attributes;
-using System;
 public class PlayerController : MonoBehaviour,IPlayer
 {
     [ShowDivider(EditorColor.Green, "Player Controller")]
@@ -29,6 +28,9 @@ public class PlayerController : MonoBehaviour,IPlayer
 
     public LayerMask GroundLayer {  get { return groundLayer; }}
 
+    [Header("Effects")]
+    [SerializeField] private TrailRenderer playerDashTrailEffect;
+
     private CapsuleCollider2D playerCollider;
     public CapsuleCollider2D PlayerCollider { get { return playerCollider; }}
 
@@ -39,13 +41,15 @@ public class PlayerController : MonoBehaviour,IPlayer
     private bool canMove;
     private float inputX;
     public bool CanMove { get { return canMove; } }
+
+    private float deathOffset;
+
     private IInputProvider _inputProvider;
     private IGameStateService _gameStateService;
     private PlayerAnimationController _playerAnimationController;
     private PlayerCameraShake _playerCameraShake;
     public PlayerAnimationController PlayerAnimation {  get { return _playerAnimationController; } }
-    public GameState CurrentState => throw new NotImplementedException();
-
+    public GameState CurrentState => throw new System.NotImplementedException();
     //==========Cache============
     public IState NewIdleState;
     public IState NewWalkingState;
@@ -53,7 +57,7 @@ public class PlayerController : MonoBehaviour,IPlayer
     public IState NewDeathState;
     public IState NewDashState;
 
-    public event Action<float> OnDashCooldownChanged;
+    public event System.Action<float> OnDashCooldownChanged;
 
     private void Awake()
     {
@@ -64,6 +68,10 @@ public class PlayerController : MonoBehaviour,IPlayer
         Move();
 
         currentState.UpdateState(this);
+    }
+    private void FixedUpdate()
+    {
+        CheckDeathOffset();
     }
     private void OnDisable()
     {
@@ -103,6 +111,23 @@ public class PlayerController : MonoBehaviour,IPlayer
 
         //
         OnDashCooldownChanged?.Invoke(dashCooldown);
+    }
+    public void SetPlayerStartPos(Vector3 pos)
+    {
+        transform.position = pos;
+
+        playerDashTrailEffect.emitting = false;
+    }
+    public void SetDeathOffset(float value)
+    {
+        deathOffset = value;
+    }
+    private void CheckDeathOffset()
+    {
+        if (transform.position.y < deathOffset)
+        {
+            _gameStateService.ChangeState(GameState.Death);
+        }
     }
     private void Move()
     {
@@ -158,6 +183,7 @@ public class PlayerController : MonoBehaviour,IPlayer
         if (!canMove || IsDead || inputX == 0 || !CanDash)
             return;
 
+
         _playerCameraShake.TriggerShake(CameraShakeType.Medium);
         ChangePlayerState(NewDashState);
 
@@ -165,6 +191,8 @@ public class PlayerController : MonoBehaviour,IPlayer
     }
     private System.Collections.IEnumerator DashCooldownRoutine()
     {
+        playerDashTrailEffect.emitting = true;
+
         currentDashCooldown = 0;
 
         while (dashCooldown > currentDashCooldown)
@@ -179,5 +207,7 @@ public class PlayerController : MonoBehaviour,IPlayer
         currentDashCooldown = dashCooldown;
 
         OnDashCooldownChanged?.Invoke(dashCooldown);
+
+        playerDashTrailEffect.emitting = false;
     }
 }

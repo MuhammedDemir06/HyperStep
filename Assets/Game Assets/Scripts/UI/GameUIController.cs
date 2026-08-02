@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-
 public class GameUIController : MonoBehaviour
 {
     [Header("UI Sub-Systems")]
@@ -8,8 +7,11 @@ public class GameUIController : MonoBehaviour
     [SerializeField] private LoseUI gameLoseUI;
     [SerializeField] private DashUI dashUI;
     [SerializeField] private LevelTimerUI levelTimerUI;
+    [SerializeField] private SettingsDisplay settingsDisplay;
+    [SerializeField] private WinUI winDisplay;
 
     private IGameStateService _gameStateService;
+
     private void OnDisable()
     {
         _gameStateService.OnStateChanged -= OnStateChanged;
@@ -33,7 +35,15 @@ public class GameUIController : MonoBehaviour
             case GameState.Death:
                 ShowDeathMode();
                 break;
+            case GameState.Finished:
+                ShowWinMode();
+                break;
         }
+
+        //
+        pauseUI.SettingsButton.onClick.AddListener(settingsDisplay.Show);
+        gameLoseUI.SettingsButton.onClick.AddListener(settingsDisplay.Show);
+        winDisplay.SettingsButton.onClick.AddListener(settingsDisplay.Show);
     }
     private void ShowGameplayMode()
     {
@@ -56,5 +66,12 @@ public class GameUIController : MonoBehaviour
         pauseUI.Hide();
         gameLoseUI.Show();
         levelTimerUI.Hide();
+    }
+    private void ShowWinMode()
+    {
+        healthUI.Hide();
+        dashUI.Hide();
+        levelTimerUI.Hide();
+        winDisplay.Show();
     }
 }

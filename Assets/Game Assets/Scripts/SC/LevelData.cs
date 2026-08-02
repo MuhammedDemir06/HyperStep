@@ -5,9 +5,10 @@ public enum LevelObjectCategory
 {
     Normal,
     Trap,
-    Enemy
+    Enemy,
+    Finish,
+    Spawn
 }
-
 [System.Serializable]
 public class LevelTileData
 {
@@ -36,4 +37,5 @@ public class LevelData : ScriptableObject
     public List<LevelTileData> Tiles = new List<LevelTileData>();
     public List<LevelCategoryData> Objects = new List<LevelCategoryData>();
     public int LevelTimeLimit;
+    public Sprite BackgroundSprite;
 }

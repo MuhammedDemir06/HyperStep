@@ -46,4 +46,9 @@ public class LevelTimerUI : MonoBehaviour
     }
     public void Show() => levelTimerPanel.Show();
     public void Hide() => levelTimerPanel.Hide();
+    private void OnDestroy()
+    {
+        if (timeText != null)
+            timeText.transform.DOKill();
+    }
 }

@@ -52,12 +52,12 @@ public static class LevelSaver
     {
         { LevelObjectCategory.Normal, new List<LevelObjectData>() },
         { LevelObjectCategory.Trap,   new List<LevelObjectData>() },
-        { LevelObjectCategory.Enemy,  new List<LevelObjectData>() }
+        { LevelObjectCategory.Enemy,  new List<LevelObjectData>() },
+        {LevelObjectCategory.Finish,new List<LevelObjectData>() },
+        {LevelObjectCategory.Spawn, new List<LevelObjectData>() },
     };
 
-        GameObject[] allObjects = Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None)
-                                        .Where(go => go.scene.IsValid())
-                                        .ToArray();
+        GameObject[] allObjects = Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None).Where(go => go.scene.IsValid()).ToArray();
 
         foreach (var obj in allObjects)
         {
@@ -66,6 +66,8 @@ public static class LevelSaver
             if (obj.CompareTag("Normal")) category = LevelObjectCategory.Normal;
             else if (obj.CompareTag("Trap")) category = LevelObjectCategory.Trap;
             else if (obj.CompareTag("Enemy")) category = LevelObjectCategory.Enemy;
+            else if (obj.CompareTag("Finish")) category = LevelObjectCategory.Finish;
+            else if (obj.CompareTag("Spawn")) category = LevelObjectCategory.Spawn;
 
             if (category.HasValue)
             {
@@ -94,7 +96,7 @@ public static class LevelSaver
             }
         }
     }
-    public static void SaveLevel(Tilemap tilemap, LevelData levelData, string chapterName,int timeLimit)
+    public static void SaveLevel(Tilemap tilemap, LevelData levelData, string chapterName,int timeLimit,Sprite backgroundSprite)
     {
         if (tilemap == null)
         {
@@ -106,6 +108,7 @@ public static class LevelSaver
 
         newLevelData.CurrentChapterName = chapterName;
         newLevelData.LevelTimeLimit = timeLimit;
+        newLevelData.BackgroundSprite = backgroundSprite;
 
         SaveTilemap(tilemap, newLevelData);
         SaveObjects(newLevelData);
