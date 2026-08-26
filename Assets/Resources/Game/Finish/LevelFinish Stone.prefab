@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2849179591833555595}
   - component: {fileID: 6975477008849785312}
   - component: {fileID: 3897847420205903760}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -191,7 +191,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4707877403403648576}
   - component: {fileID: 1279508956782400230}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -284,7 +284,7 @@ GameObject:
   - component: {fileID: 116055992460364510}
   - component: {fileID: 3131764814195792653}
   - component: {fileID: 1352595651442138509}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LevelFinish Stone
   m_TagString: Finish
   m_Icon: {fileID: 0}

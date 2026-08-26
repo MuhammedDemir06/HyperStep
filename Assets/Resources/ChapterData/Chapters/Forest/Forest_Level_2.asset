@@ -1,0 +1,197 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ce5efdf5ff139440baaecc6ac9f82c5, type: 3}
+  m_Name: Forest_Level_2
+  m_EditorClassIdentifier: Assembly-CSharp::LevelData
+  CurrentChapterName: Forest
+  Tiles:
+  - Position: {x: -11, y: -5, z: 0}
+    TileName: TX Tileset Ground_41
+  - Position: {x: -10, y: -5, z: 0}
+    TileName: TX Tileset Ground_42
+  - Position: {x: -9, y: -5, z: 0}
+    TileName: TX Tileset Ground_42
+  - Position: {x: -8, y: -5, z: 0}
+    TileName: TX Tileset Ground_42
+  - Position: {x: -7, y: -5, z: 0}
+    TileName: TX Tileset Ground_42
+  - Position: {x: -6, y: -5, z: 0}
+    TileName: TX Tileset Ground_42
+  - Position: {x: -5, y: -5, z: 0}
+    TileName: TX Tileset Ground_42
+  - Position: {x: -4, y: -5, z: 0}
+    TileName: TX Tileset Ground_42
+  - Position: {x: -3, y: -5, z: 0}
+    TileName: TX Tileset Ground_42
+  - Position: {x: -2, y: -5, z: 0}
+    TileName: TX Tileset Ground_42
+  - Position: {x: -1, y: -5, z: 0}
+    TileName: TX Tileset Ground_42
+  - Position: {x: 0, y: -5, z: 0}
+    TileName: TX Tileset Ground_42
+  - Position: {x: 1, y: -5, z: 0}
+    TileName: TX Tileset Ground_42
+  - Position: {x: 2, y: -5, z: 0}
+    TileName: TX Tileset Ground_42
+  - Position: {x: 3, y: -5, z: 0}
+    TileName: TX Tileset Ground_42
+  - Position: {x: 4, y: -5, z: 0}
+    TileName: TX Tileset Ground_42
+  - Position: {x: 5, y: -5, z: 0}
+    TileName: TX Tileset Ground_42
+  - Position: {x: 6, y: -5, z: 0}
+    TileName: TX Tileset Ground_42
+  - Position: {x: 7, y: -5, z: 0}
+    TileName: TX Tileset Ground_42
+  - Position: {x: 8, y: -5, z: 0}
+    TileName: TX Tileset Ground_42
+  - Position: {x: 9, y: -5, z: 0}
+    TileName: TX Tileset Ground_42
+  - Position: {x: 10, y: -5, z: 0}
+    TileName: TX Tileset Ground_43
+  - Position: {x: -11, y: -4, z: 0}
+    TileName: TX Tileset Ground_28
+  - Position: {x: 10, y: -4, z: 0}
+    TileName: TX Tileset Ground_5
+  - Position: {x: -11, y: -3, z: 0}
+    TileName: TX Tileset Ground_28
+  - Position: {x: 4, y: -3, z: 0}
+    TileName: TX Tileset Ground_155
+  - Position: {x: 5, y: -3, z: 0}
+    TileName: TX Tileset Ground_156
+  - Position: {x: 10, y: -3, z: 0}
+    TileName: TX Tileset Ground_5
+  - Position: {x: -11, y: -2, z: 0}
+    TileName: TX Tileset Ground_28
+  - Position: {x: 10, y: -2, z: 0}
+    TileName: TX Tileset Ground_5
+  - Position: {x: -11, y: -1, z: 0}
+    TileName: TX Tileset Ground_122
+  - Position: {x: -10, y: -1, z: 0}
+    TileName: TX Tileset Ground_123
+  - Position: {x: -9, y: -1, z: 0}
+    TileName: TX Tileset Ground_158
+  - Position: {x: -8, y: -1, z: 0}
+    TileName: TX Tileset Ground_158
+  - Position: {x: -7, y: -1, z: 0}
+    TileName: TX Tileset Ground_158
+  - Position: {x: -6, y: -1, z: 0}
+    TileName: TX Tileset Ground_158
+  - Position: {x: -5, y: -1, z: 0}
+    TileName: TX Tileset Ground_158
+  - Position: {x: -4, y: -1, z: 0}
+    TileName: TX Tileset Ground_158
+  - Position: {x: -3, y: -1, z: 0}
+    TileName: TX Tileset Ground_158
+  - Position: {x: -2, y: -1, z: 0}
+    TileName: TX Tileset Ground_158
+  - Position: {x: -1, y: -1, z: 0}
+    TileName: TX Tileset Ground_158
+  - Position: {x: 0, y: -1, z: 0}
+    TileName: TX Tileset Ground_158
+  - Position: {x: 1, y: -1, z: 0}
+    TileName: TX Tileset Ground_158
+  - Position: {x: 2, y: -1, z: 0}
+    TileName: TX Tileset Ground_164
+  - Position: {x: 7, y: -1, z: 0}
+    TileName: TX Tileset Ground_155
+  - Position: {x: 8, y: -1, z: 0}
+    TileName: TX Tileset Ground_156
+  - Position: {x: 10, y: -1, z: 0}
+    TileName: TX Tileset Ground_5
+  - Position: {x: -11, y: 0, z: 0}
+    TileName: TX Tileset Ground_28
+  - Position: {x: 10, y: 0, z: 0}
+    TileName: TX Tileset Ground_5
+  - Position: {x: -11, y: 1, z: 0}
+    TileName: TX Tileset Ground_28
+  - Position: {x: 10, y: 1, z: 0}
+    TileName: TX Tileset Ground_5
+  - Position: {x: -11, y: 2, z: 0}
+    TileName: TX Tileset Ground_28
+  - Position: {x: 10, y: 2, z: 0}
+    TileName: TX Tileset Ground_5
+  - Position: {x: -11, y: 3, z: 0}
+    TileName: TX Tileset Ground_28
+  - Position: {x: 10, y: 3, z: 0}
+    TileName: TX Tileset Ground_5
+  - Position: {x: -11, y: 4, z: 0}
+    TileName: TX Tileset Ground_28
+  - Position: {x: 10, y: 4, z: 0}
+    TileName: TX Tileset Ground_5
+  - Position: {x: -11, y: 5, z: 0}
+    TileName: TX Tileset Ground_19
+  - Position: {x: -10, y: 5, z: 0}
+    TileName: TX Tileset Ground_20
+  - Position: {x: -9, y: 5, z: 0}
+    TileName: TX Tileset Ground_20
+  - Position: {x: -8, y: 5, z: 0}
+    TileName: TX Tileset Ground_20
+  - Position: {x: -7, y: 5, z: 0}
+    TileName: TX Tileset Ground_20
+  - Position: {x: -6, y: 5, z: 0}
+    TileName: TX Tileset Ground_20
+  - Position: {x: -5, y: 5, z: 0}
+    TileName: TX Tileset Ground_20
+  - Position: {x: -4, y: 5, z: 0}
+    TileName: TX Tileset Ground_20
+  - Position: {x: -3, y: 5, z: 0}
+    TileName: TX Tileset Ground_20
+  - Position: {x: -2, y: 5, z: 0}
+    TileName: TX Tileset Ground_20
+  - Position: {x: -1, y: 5, z: 0}
+    TileName: TX Tileset Ground_20
+  - Position: {x: 0, y: 5, z: 0}
+    TileName: TX Tileset Ground_20
+  - Position: {x: 1, y: 5, z: 0}
+    TileName: TX Tileset Ground_20
+  - Position: {x: 2, y: 5, z: 0}
+    TileName: TX Tileset Ground_20
+  - Position: {x: 3, y: 5, z: 0}
+    TileName: TX Tileset Ground_20
+  - Position: {x: 4, y: 5, z: 0}
+    TileName: TX Tileset Ground_20
+  - Position: {x: 5, y: 5, z: 0}
+    TileName: TX Tileset Ground_20
+  - Position: {x: 6, y: 5, z: 0}
+    TileName: TX Tileset Ground_20
+  - Position: {x: 7, y: 5, z: 0}
+    TileName: TX Tileset Ground_20
+  - Position: {x: 8, y: 5, z: 0}
+    TileName: TX Tileset Ground_20
+  - Position: {x: 9, y: 5, z: 0}
+    TileName: TX Tileset Ground_20
+  - Position: {x: 10, y: 5, z: 0}
+    TileName: TX Tileset Ground_21
+  Objects:
+  - Category: 1
+    Data:
+    - PrefabID: Barricade
+      Position: {x: 7.3745565, y: -4.0089617, z: 0}
+      Rotation: {x: 0, y: 0, z: 0, w: 1}
+  - Category: 2
+    Data:
+    - PrefabID: Slime Enemy
+      Position: {x: 7.530883, y: 0.61134636, z: 0}
+      Rotation: {x: 0, y: 0, z: 0, w: 1}
+  - Category: 3
+    Data:
+    - PrefabID: LevelFinish Stone
+      Position: {x: -9, y: 0.03, z: 0}
+      Rotation: {x: 0, y: 0, z: 0, w: 1}
+  - Category: 4
+    Data:
+    - PrefabID: Spawn Pos 1
+      Position: {x: -9.2, y: -2.91, z: 0}
+      Rotation: {x: 0, y: 0, z: 0, w: 1}
+  LevelTimeLimit: 100
+  BackgroundSprite: {fileID: 21300000, guid: 858ef93b9dd83034aa8b5350fac45bc8, type: 2}
