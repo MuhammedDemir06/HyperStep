@@ -21,8 +21,8 @@ public class MenuContextManager : MonoBehaviour
     }
     private void Start()
     {
+        _audioStateService.UpdateMixer();
         //wiring
         menuUIInstaller.Constructs(_audioStateService,_playerDataManager,_levelProgressService,_sceneTransitionManager);
     }
-
 }

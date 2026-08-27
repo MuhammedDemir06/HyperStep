@@ -9,7 +9,6 @@ public class GameContextManager : MonoBehaviour
     private LevelProgressService _levelProgressService;
     private SceneTransitionManager _sceneTransitionManager;
     [Header("Referances")]
-    [SerializeField] private AudioMixer audioMixer;
     [SerializeField] private PlayerInstaller playerInstaller;
     [SerializeField] private LevelLoadManager levelLoadManager;
 
@@ -32,12 +31,15 @@ public class GameContextManager : MonoBehaviour
     }
     private void Start()
     {
+        _audioStateService.UpdateMixer();
+
         //wiring
         gameUIInstaller.MainConstruct(_gameStateService, playerInstaller.Health, playerInstaller.Controller,timeManager,_audioStateService,_sceneTransitionManager,_levelProgressService);
 
         playerInstaller.PlayerConstructs(_gameStateService, _newInputManager);
 
         levelLoadManager.Construct(_gameStateService , playerInstaller.Controller,_levelProgressService);
+
         timeManager.Construct(levelLoadManager,_gameStateService);
     }
     private void OnDisable()

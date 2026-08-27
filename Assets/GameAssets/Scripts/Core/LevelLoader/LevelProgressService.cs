@@ -19,12 +19,12 @@ public class LevelProgressService : ILevelProgress
     public LevelProgressService(PlayerDataService playerDataService,SceneTransitionManager sceneTransitionManager)
     {
         _playerDataService = playerDataService;
+        _sceneTransitionManager = sceneTransitionManager;
     }
 
     public void SetCurrentLevel(CurrentLevelStats currentLevel)
     {
         currentLevelStats = currentLevel;
-        Debug.Log("Adjusted");
     }
     public void LevelCompleted()
     {

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEditor;
+using UnityEngine;
 using UnityEngine.Audio;
 
 public class GameManager : MonoBehaviour
@@ -11,7 +12,7 @@ public class GameManager : MonoBehaviour
     public AudioStateService _audioStateService;
     public PlayerDataService _playerDataService;
     public LevelProgressService _levelProgressService;
-    public SceneTransitionManager _sceneTransitionManager;
+    [HideInInspector] public SceneTransitionManager _sceneTransitionManager;
 
     [SerializeField] private AudioMixer audioMixer;
     [SerializeField] private GameObject transitionUIPrefab;
@@ -55,12 +56,8 @@ public class GameManager : MonoBehaviour
         _levelProgressService = new LevelProgressService(_playerDataService,_sceneTransitionManager);
 
         //Audio
-        AudioStateService audioService = new AudioStateService();
-        audioService.Construct(audioMixer, _playerDataService);
-
-        _audioStateService = audioService;
-
-        _audioStateService.UpdateMixer();
+        _audioStateService = new AudioStateService();
+        _audioStateService.Construct(audioMixer, _playerDataService);
     }
     private void SpawnTransitionUI()
     {
@@ -79,3 +76,24 @@ public class GameManager : MonoBehaviour
         _playerDataService.SaveData();
     }
 }
+
+#if UNITY_EDITOR
+
+public static class SaveDataMenu
+{
+    [MenuItem("Tools/Delete Save Data")]
+    private static void DeleteSaveData()
+    {
+        string filePath = System.IO.Path.Combine(Application.persistentDataPath, "playerData.json");
+        if (System.IO.File.Exists(filePath))
+        {
+            System.IO.File.Delete(filePath);
+            Debug.Log($"Save data deleted: {filePath}");
+        }
+        else
+        {
+            Debug.Log("No save data found.");
+        }
+    }
+}
+#endif

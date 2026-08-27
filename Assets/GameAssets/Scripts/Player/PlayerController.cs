@@ -122,6 +122,7 @@ public class PlayerController : MonoBehaviour,IPlayer
     }
     public void SetPlayerMoveState()
     {
+        moveSpeed = 0;
         rb.linearVelocity = new Vector2(0,rb.linearVelocity.y);
         canMove = false;
     }

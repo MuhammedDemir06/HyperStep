@@ -5,6 +5,8 @@ public interface IAudioStateService
 {
     bool IsSoundEnabled { get; }
     void ChangeAudioState();
+
+    void UpdateMixer();
 }
 
 public class AudioStateService : IAudioStateService
